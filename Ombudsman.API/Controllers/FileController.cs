@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ServiceLayer.DataTransferObjects;
 using ServiceLayer.Services;
 
 namespace Ombudsman.API.Controllers;

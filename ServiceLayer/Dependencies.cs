@@ -8,6 +8,8 @@ public static class Dependencies
     {
         services.AddScoped<IFileService, FileService>();
 
+        services.AddScoped<IAuthServices, AuthServices>();
+
         return services;
     }
 }

@@ -1,9 +1,7 @@
-﻿using DataLayer.Context;
-using DataLayer.Repository;
+﻿using DataLayer.Repository;
 using DomainLayer.Entities.DOC.Files;
 using DomainLayer.Exceptions;
 using Microsoft.AspNetCore.Http;
-using ServiceLayer.DataTransferObjects;
 using ServiceLayer.Extantions;
 using ServiceLayer.Validations;
 
