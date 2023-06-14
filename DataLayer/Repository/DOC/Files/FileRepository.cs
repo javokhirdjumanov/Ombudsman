@@ -2,7 +2,7 @@
 using DomainLayer.Entities.DOC.Files;
 using Microsoft.EntityFrameworkCore;
 
-namespace DataLayer.Repository.FileRepository;
+namespace DataLayer.Repository;
 internal class FileRepository : IFileRepository
 {
     private readonly ApplicationDbContext context;
@@ -13,17 +13,17 @@ internal class FileRepository : IFileRepository
 
     public async ValueTask<FileModel> CreateAsync(FileModel file)
     {
-        var entityEntry = await this.context
-            .AddAsync<FileModel>(file);
+        var entityEntry = await context
+            .AddAsync(file);
 
-        await this.context.SaveChangesAsync();
+        await context.SaveChangesAsync();
 
         return entityEntry.Entity;
     }
 
     public async ValueTask<FileModel> GetFileByIdAsync(int fileId)
     {
-        return await this.context
+        return await context
             .Set<FileModel>()
             .FirstOrDefaultAsync(x => x.Id == fileId);
     }
