@@ -1,6 +1,7 @@
 ﻿using DomainLayer.Constants;
 using DomainLayer.Entities.DOC.Files;
 using DomainLayer.Entities.ENUM;
+using DomainLayer.Entities.HL;
 using DomainLayer.Entities.INFO;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -83,7 +84,9 @@ public class Document
     /// <summary>
     /// Asosiy Ijrochi
     /// </summary>
-    public string MainPerformer { get; set; }
+    public int OrginizationUserId { get; set; }
+    [ForeignKey(nameof(OrginizationUserId))]
+    public User User{ get; set; }
 
     /// <summary>
     /// Tashabbus turi

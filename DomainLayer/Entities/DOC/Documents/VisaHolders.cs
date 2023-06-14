@@ -11,7 +11,7 @@ public class VisaHolders
     public int Id { get; set; }
 
     /// <summary>
-    /// Qaysi hujjat
+    /// QAYSI HUJJAT
     /// </summary>
     public int DocumentId { get; set; }
     [ForeignKey(nameof(DocumentId))]

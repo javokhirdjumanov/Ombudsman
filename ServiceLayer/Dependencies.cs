@@ -10,6 +10,9 @@ public static class Dependencies
 
         services.AddScoped<IAuthServices, AuthServices>();
 
+        services.AddScoped<IUserService, UserService>();
+        services.AddSingleton<IUserFactory, UserFactory>();
+
         return services;
     }
 }

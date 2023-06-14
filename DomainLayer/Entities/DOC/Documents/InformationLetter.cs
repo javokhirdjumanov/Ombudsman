@@ -1,4 +1,5 @@
 ﻿using DomainLayer.Constants;
+using DomainLayer.Entities.HL;
 using DomainLayer.Entities.INFO;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -23,6 +24,7 @@ public class InformationLetter
     /// <summary>
     /// Viza quyuvchilar
     /// </summary>
+    public string VisaHolder { get; set; }
 
     /// <summary>
     /// Axborot xati matni
@@ -39,7 +41,9 @@ public class InformationLetter
     /// <summary>
     /// Ham ijrochilar
     /// </summary>
-    public string Performers { get; set; }
+    public int EmployeeId { get; set; }
+    [ForeignKey(nameof(EmployeeId))]
+    public User Empoloyee{  get; set; }
 
     /// <summary>
     /// Masul xodim

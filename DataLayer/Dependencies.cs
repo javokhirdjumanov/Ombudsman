@@ -22,7 +22,8 @@ public static class Dependencies
             string connectionString = configuration
                 .GetConnectionString("DefaultConnectionString");
 
-            options.UseNpgsql(connectionString).UseSnakeCaseNamingConvention();
+            options.UseNpgsql(connectionString)
+            .UseSnakeCaseNamingConvention();
         });
 
         AddAuth(services, configuration);
@@ -33,14 +34,6 @@ public static class Dependencies
     }
     public static void AddAuth(IServiceCollection services, IConfiguration configuration)
     {
-        /*services.AddAuthorization(options =>
-        {
-            options.AddPolicy("UserPolicy", options =>
-            {
-                options.RequireRole();
-            });
-        });*/
-
         services.AddAuthentication(options =>
         {
             options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -67,8 +60,18 @@ public static class Dependencies
 
         services.AddScoped<IFileRepository, FileRepository>();
 
-        services.AddTransient<IPasswordHasher, PasswordHasher>();
+        services.AddSingleton<IPasswordHasher, PasswordHasher>();
 
         services.AddTransient<IJwtTokenHandler, JwtTokenHandler>();
+
+        services.AddScoped<IDocumentRepository, DocumentRepository>();
+
+        services.AddScoped<IUserRepository, UserRepositories>();
+
+        services.AddScoped<IOrganizationRepository, OrganizationRepository>();
+
+        services.AddScoped<ISectorRepository, SectorRepository>();
+
+        services.AddScoped<IStateProgram, StateProgram>();
     }
 }

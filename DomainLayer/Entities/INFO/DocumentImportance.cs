@@ -5,12 +5,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime;
 
 namespace DomainLayer.Entities.INFO;
-
-/// <summary>
-/// Hujjat Ahamiyati
-/// </summary>
-[Table(TableNames.DocumentImportance)]
-public class DocumentImportance : AudiTable
+[Table("info_document_importance", Schema = "public")]
+public class DocumentImportance : AudiTable     // hujjat ahamiyati
 {
     public int StatusId { get; set; }
     [ForeignKey(nameof(StatusId))]
