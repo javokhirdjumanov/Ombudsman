@@ -22,9 +22,9 @@ public class Organization : AudiTable
     /// <summary>
     /// YUQORI TURUVCHI TASHKILOT
     /// </summary>
-    public int OrganizationId { get; set; }
+    public int? OrganizationId { get; set; }
     [ForeignKey(nameof(OrganizationId))]
-    public Organization SuperiorOrganization { get; set; }
+    public Organization? SuperiorOrganization { get; set; }
 
     public int StatusId { get; set; }
     [ForeignKey(nameof(StatusId))]

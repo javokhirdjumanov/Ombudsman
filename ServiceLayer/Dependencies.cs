@@ -14,10 +14,13 @@ public static class Dependencies
         services.AddSingleton<IUserFactory, UserFactory>();
 
         services.AddScoped<IStateProgramService, StateProgramService>();
+
         services.AddScoped<ISectorService, SectorService>();
 
         services.AddScoped<IManualService, ManualService>();
 
+        services.AddScoped<IOrganizationService, OrganizationService>();
+        services.AddScoped<IFactoryOrganization, FactoryOrganization>();
 
         return services;
     }

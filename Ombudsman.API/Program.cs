@@ -1,4 +1,5 @@
 using DataLayer;
+using Ombudsman.API.Middliwares;
 using ServiceLayer;
 
 namespace Ombudsman.API
@@ -9,7 +10,6 @@ namespace Ombudsman.API
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
             builder.Services
                 .AddDataLayer(builder.Configuration)
                 .AddServiceLayer();
@@ -31,6 +31,7 @@ namespace Ombudsman.API
             app.UseAuthentication();
 
             //app.UseAuthorization();
+            app.UseMiddleware<ExceptionHandling>();
 
             app.MapControllers();
 
