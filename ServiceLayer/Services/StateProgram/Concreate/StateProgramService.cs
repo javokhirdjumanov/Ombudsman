@@ -47,9 +47,9 @@ public class StateProgramService : IStateProgramService
             addedStatusProgram.OrderNumber,
             addedStatusProgram.ShortName,
             addedStatusProgram.FullName,
-            new SDto(spDlDto.status_id, addedStatusProgram.Status.Name));
+            new Status { Id = spDlDto.status_id, Name = addedStatusProgram.Status.Name });
     }
-    public IQueryable<SPDto> GetListStateProgramAsync()
+    public IQueryable<SPDto> StateProgramSelectListAsync()
     {
         var statePrograms = this.stateProgramRepository
             .SelectAll()
@@ -58,7 +58,7 @@ public class StateProgramService : IStateProgramService
 
         return statePrograms
             .Select(sp =>
-            new SPDto(sp.Id, sp.OrderNumber, sp.ShortName, sp.FullName, new SDto(sp.Status.Id, sp.Status.Name)));
+            new SPDto(sp.Id, sp.OrderNumber, sp.ShortName, sp.FullName, new Status { Id = sp.Status.Id, Name = sp.Status.Name }));
     }
     public async ValueTask<SPDto> DeleteStateProgramAsync(int id)
     {
@@ -82,6 +82,6 @@ public class StateProgramService : IStateProgramService
            updateStateProgram.OrderNumber,
            updateStateProgram.ShortName,
            updateStateProgram.FullName,
-           new SDto(deleteStatusObj.Id, deleteStatusObj.Name));
+           new Status { Id = deleteStatusObj.Id, Name = deleteStatusObj.Name });
     }
 }

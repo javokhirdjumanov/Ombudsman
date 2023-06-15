@@ -39,17 +39,17 @@ public class SectorService : ISectorService
         var addedSector = await this.sectorRepository
             .InsertAsync(newSector);
 
-        return  new SectorDto(
+        return new SectorDto(
                 addedSector.Id,
                 addedSector.SectorNumber,
-                new SDto(addedSector.StatusId,
-                addedSector.Status.Name),
+                new Status{Id = addedSector.StatusId,
+                Name = addedSector.Status.Name},
                 addedSector.OrderNumber,
                 addedSector.ShortName,
                 addedSector.FullName);
     }
 
-    public IQueryable<SectorDto> GetAllSectorsAsync()
+    public IQueryable<SectorDto> SectorsSelectListAsync()
     {
         var allSectors = this.sectorRepository
             .SelectAll()
@@ -57,8 +57,7 @@ public class SectorService : ISectorService
 
         return allSectors.Select(x => new SectorDto(x.Id,
                 x.SectorNumber,
-                new SDto(x.StatusId,
-                x.Status.Name),
+                new Status { Id = x.StatusId, Name = x.Status.Name},
                 x.OrderNumber,
                 x.ShortName,
                 x.FullName));
@@ -85,7 +84,7 @@ public class SectorService : ISectorService
         return new SectorDto(
            updateSector.Id,
            updateSector.OrderNumber,
-           new SDto(updateSector.StatusId, updateSector.Status.Name),
+           new Status { Id = updateSector.StatusId, Name = updateSector.Status.Name },
            updateSector.OrderNumber,
            updateSector.ShortName,
            updateSector.FullName);

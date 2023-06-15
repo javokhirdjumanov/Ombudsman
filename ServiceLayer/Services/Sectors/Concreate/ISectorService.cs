@@ -2,6 +2,6 @@
 public interface ISectorService
 {
     ValueTask<SectorDto> CreateSectorAsync(SectorDlDto sector);
-    IQueryable<SectorDto> GetAllSectorsAsync();
+    IQueryable<SectorDto> SectorsSelectListAsync();
     ValueTask<SectorDto> DeleteSectorAsync(int id);
 }

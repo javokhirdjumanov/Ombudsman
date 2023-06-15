@@ -2,7 +2,7 @@
 using ServiceLayer.Services;
 
 namespace Ombudsman.API.Controllers;
-[Route("api/[controller]")]
+[Route("api/[controller]/[action]")]
 [ApiController]
 public class SectorController : ControllerBase
 {
@@ -12,7 +12,7 @@ public class SectorController : ControllerBase
         this.sertorService = sertorService;
     }
     [HttpPost]
-    public async ValueTask<ActionResult<SectorDto>> PostSectorAsync(SectorDlDto sectorDlDto)
+    public async ValueTask<ActionResult<SectorDto>> CreateAsync(SectorDlDto sectorDlDto)
     {
         var newSector = await this.sertorService
             .CreateSectorAsync(sectorDlDto);
@@ -20,16 +20,16 @@ public class SectorController : ControllerBase
         return Created("", newSector);
     }
 
-    [HttpGet("All")]
-    public IActionResult GetAllSectors()
+    [HttpGet]
+    public IActionResult SelectList()
     {
-        var sectors = this.sertorService.GetAllSectorsAsync();
+        var sectors = this.sertorService.SectorsSelectListAsync();
 
         return Ok(sectors);
     }
 
     [HttpDelete("{id:int}")]
-    public async ValueTask<ActionResult<SectorDto>> DeleteSectorAsync(int id)
+    public async ValueTask<ActionResult<SectorDto>> DeleteAsync(int id)
     {
         var deleteSector = await this.sertorService
             .DeleteSectorAsync(id);

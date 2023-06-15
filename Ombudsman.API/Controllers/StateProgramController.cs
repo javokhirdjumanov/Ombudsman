@@ -2,7 +2,7 @@
 using ServiceLayer.Services;
 
 namespace Ombudsman.API.Controllers;
-[Route("api/[controller]")]
+[Route("api/[controller]/[action]")]
 [ApiController]
 public class StateProgramController : ControllerBase
 {
@@ -12,23 +12,23 @@ public class StateProgramController : ControllerBase
         this.stateProgramService = stateProgramService;
     }
     [HttpPost]
-    public async ValueTask<ActionResult<SPDto>> PostStateProgramAsync(SPDlDto spDlDto)
+    public async ValueTask<ActionResult<SPDto>> CreateAsync(SPDlDto spDlDto)
     {
         var newStateProgram = await this.stateProgramService
             .CreateStateProgramAsync(spDlDto);
 
         return Created("", newStateProgram);
     }
-    [HttpGet("all")]
-    public IActionResult GetAllStatePrograms()
+    [HttpGet]
+    public IActionResult SelectListAsync()
     {
         var statePrograms = this.stateProgramService
-            .GetListStateProgramAsync();
+            .StateProgramSelectListAsync();
 
         return Ok(statePrograms);
     }
     [HttpDelete("{id:int}")]
-    public async ValueTask<ActionResult<SPDto>> DeleteStateProgramAsync(int id)
+    public async ValueTask<ActionResult<SPDto>> DeleteAsync(int id)
     {
         var removedStateProgram = await this.stateProgramService.DeleteStateProgramAsync(id);
 
