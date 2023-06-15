@@ -6,3 +6,6 @@
     status_id INT NOT NULL,
     CONSTRAINT fk_status_id FOREIGN KEY (status_id) REFERENCES enum_status(id)
 );
+
+insert into public."info_document_importance"
+values  (2, 1, 2, 'Nazoratda', 'Nazoratda olingan');
