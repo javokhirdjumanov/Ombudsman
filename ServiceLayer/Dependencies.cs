@@ -13,6 +13,8 @@ public static class Dependencies
         services.AddScoped<IUserService, UserService>();
         services.AddSingleton<IUserFactory, UserFactory>();
 
+        services.AddScoped<IStateProgramService, StateProgramService>();
+
         return services;
     }
 }

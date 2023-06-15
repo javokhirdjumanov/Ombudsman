@@ -72,6 +72,6 @@ public static class Dependencies
 
         services.AddScoped<ISectorRepository, SectorRepository>();
 
-        services.AddScoped<IStateProgram, StateProgram>();
+        services.AddScoped<IStateProgramRepository, StateProgramRepository>();
     }
 }
