@@ -1,5 +1,6 @@
 ﻿using DataLayer;
 using DomainLayer.Entities.ENUM;
+using DomainLayer.Entities.INFO;
 using Microsoft.EntityFrameworkCore;
 
 namespace ServiceLayer.Services;
@@ -46,5 +47,10 @@ public class ManualService : IManualService
     public IQueryable<DocumentStatus> DocumentStatusSelectList()
     {
         return this.unitOfWork.context.DocumentStatuses.Include(d => d.Status);
+    }
+
+    public IQueryable<DocumentImportance> DocumentImportanceSelectList()
+    {
+        return this.unitOfWork.context.DocumentImportances.Include(d => d.Status);
     }
 }

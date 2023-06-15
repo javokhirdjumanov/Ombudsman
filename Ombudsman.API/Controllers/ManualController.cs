@@ -58,4 +58,11 @@ public class ManualController : ControllerBase
 
         return Ok(documentStatus);
     }
+    [HttpGet]
+    public IActionResult DocumentImportanceSelectList()
+    {
+        var documentImportance = this.manualService.DocumentImportanceSelectList();
+
+        return Ok(documentImportance);
+    }
 }
