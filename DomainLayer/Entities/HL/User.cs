@@ -19,7 +19,7 @@ public class User
     public string? RefreshToken { get; private set; }
     public DateTime? RefreshTokenExpiredDate { get; private set; }
 
-    public int OrganizationId { get; set; }
+    public int? OrganizationId { get; set; }
     [ForeignKey(nameof(OrganizationId))]
     public Organization Organizations { get; set; }
 
