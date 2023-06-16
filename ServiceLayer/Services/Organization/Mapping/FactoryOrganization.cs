@@ -40,13 +40,13 @@ public class FactoryOrganization : IFactoryOrganization
         return new OrgDto
         {
             id = addedOrganization.Id,
-            order_number = addedOrganization.OrderNumber,
-            state_organization = addedOrganization.StateOrganization,
+            ordernumber = addedOrganization.OrderNumber,
+            stateorganization = addedOrganization.StateOrganization,
             is_grouper = addedOrganization.IsGrouper,
-            supreor_organization = addedOrganization.SuperiorOrganization,
+            supreororganization = addedOrganization.SuperiorOrganization,
             short_name = addedOrganization.ShortName,
             full_name = addedOrganization.FullName,
-            status = addedOrganization.State,
+            state = addedOrganization.State,
         };
     }
 }

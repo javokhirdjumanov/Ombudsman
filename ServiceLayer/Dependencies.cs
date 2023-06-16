@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using ServiceLayer.Services;
+using AutoMapper;
 
 namespace ServiceLayer;
 public static class Dependencies
@@ -21,6 +22,10 @@ public static class Dependencies
 
         services.AddScoped<IOrganizationService, OrganizationService>();
         services.AddScoped<IFactoryOrganization, FactoryOrganization>();
+
+        services.AddScoped<IEmployeeService, EmployeeService>();
+
+        services.AddAutoMapper(typeof(MappingProfile));
 
         return services;
     }

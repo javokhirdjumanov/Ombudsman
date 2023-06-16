@@ -67,6 +67,7 @@ public static class Dependencies
         services.AddScoped<IDocumentRepository, DocumentRepository>();
 
         services.AddScoped<IUserRepository, UserRepositories>();
+        services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 
         services.AddScoped<IOrganizationRepository, OrganizationRepository>();
 
