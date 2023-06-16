@@ -9,7 +9,7 @@ public class Sectors : AudiTable
 {
     public int SectorNumber { get; set; }
 
-    public int StatusId { get; set; }
-    [ForeignKey(nameof(StatusId))]
-    public Status Status { get; set; }
+    public int StateId { get; set; }
+    [ForeignKey(nameof(StateId))]
+    public State State { get; set; }
 }

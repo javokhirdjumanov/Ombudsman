@@ -8,7 +8,7 @@ public class FactoryOrganization : IFactoryOrganization
         OrgDlDto orgDlDto,
         StateOrganization stateOrg,
         Organization? child_organization,
-        Status status)
+        State status)
     {
         var newOrganization = new Organization
         {
@@ -18,7 +18,7 @@ public class FactoryOrganization : IFactoryOrganization
             SuperiorOrganization = child_organization,
             ShortName = orgDlDto.short_name,
             FullName = orgDlDto.full_name,
-            Status = status
+            State = status
         };
 
         return newOrganization;
@@ -31,8 +31,8 @@ public class FactoryOrganization : IFactoryOrganization
         organization.IsGrouper = orgDlDtoForModify.is_grouper;
         organization.FullName = orgDlDtoForModify.full_name;
         organization.ShortName = orgDlDtoForModify.short_name;
-        organization.StatusId = orgDlDtoForModify.status_id;
-        organization.StateOrganizationId = orgDlDtoForModify.state_organization_id;
+        organization.StateId = orgDlDtoForModify.status_id;
+        organization.StateOrganizationIds = orgDlDtoForModify.state_organization_id;
     }
 
     public OrgDto MapToOrganizationDto(Organization addedOrganization)
@@ -46,7 +46,7 @@ public class FactoryOrganization : IFactoryOrganization
             supreor_organization = addedOrganization.SuperiorOrganization,
             short_name = addedOrganization.ShortName,
             full_name = addedOrganization.FullName,
-            status = addedOrganization.Status,
+            status = addedOrganization.State,
         };
     }
 }

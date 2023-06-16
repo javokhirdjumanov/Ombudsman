@@ -29,14 +29,14 @@ public class StateProgramService : IStateProgramService
             .FirstOrDefaultAsync(x => x.Id == spDlDto.status_id);
 
         ValidationStorageObj
-            .GenericValidation<Status>(storageStatus, spDlDto.status_id);
+            .GenericValidation<State>(storageStatus, spDlDto.status_id);
 
         var newStateProgram = new StateProgram
         {
             OrderNumber = spDlDto.order_number,
             ShortName = spDlDto.short_name,
             FullName = spDlDto.full_name,
-            Status = storageStatus
+            State = storageStatus
         };
 
         var addedStatusProgram = await this.stateProgramRepository
@@ -47,18 +47,18 @@ public class StateProgramService : IStateProgramService
             addedStatusProgram.OrderNumber,
             addedStatusProgram.ShortName,
             addedStatusProgram.FullName,
-            new Status { Id = spDlDto.status_id, Name = addedStatusProgram.Status.Name });
+            new State { Id = spDlDto.status_id, Name = addedStatusProgram.State.Name });
     }
     public IQueryable<SPDto> StateProgramSelectListAsync()
     {
         var statePrograms = this.stateProgramRepository
             .SelectAll()
-            .Include(sp => sp.Status)
-            .Where(sp => sp.StatusId != 3);
+            .Include(sp => sp.State)
+            .Where(sp => sp.StateId != 3);
 
         return statePrograms
             .Select(sp =>
-            new SPDto(sp.Id, sp.OrderNumber, sp.ShortName, sp.FullName, new Status { Id = sp.Status.Id, Name = sp.Status.Name }));
+            new SPDto(sp.Id, sp.OrderNumber, sp.ShortName, sp.FullName, new State { Id = sp.State.Id, Name = sp.State.Name }));
     }
     public async ValueTask<SPDto> DeleteStateProgramAsync(int id)
     {
@@ -72,7 +72,7 @@ public class StateProgramService : IStateProgramService
 
         var deleteStatusObj = this.unitOfWork.context.Statuses.FirstOrDefault(x => x.Id == 3);
 
-        storageStateProgram.Status = deleteStatusObj;
+        storageStateProgram.State = deleteStatusObj;
 
         var updateStateProgram = await this.stateProgramRepository
             .UpdateAsync(storageStateProgram);
@@ -82,6 +82,6 @@ public class StateProgramService : IStateProgramService
            updateStateProgram.OrderNumber,
            updateStateProgram.ShortName,
            updateStateProgram.FullName,
-           new Status { Id = deleteStatusObj.Id, Name = deleteStatusObj.Name });
+           new State { Id = deleteStatusObj.Id, Name = deleteStatusObj.Name });
     }
 }

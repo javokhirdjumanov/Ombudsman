@@ -6,7 +6,7 @@ namespace DomainLayer.Entities.ENUM;
 [Table(TableNames.InitiativeTypeTranslate)]
 public class InitiativeTypeTranslate : EntityTranslate
 {
-    public int InitiativeTypeId { get; set; }
-    [ForeignKey(nameof(InitiativeTypeId))]
+    public int owner_id { get; set; }
+    [ForeignKey(nameof(owner_id))]
     public InitiativeType InitiativeType { get; set; }
 }

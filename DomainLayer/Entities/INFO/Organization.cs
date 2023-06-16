@@ -10,8 +10,8 @@ public class Organization : AudiTable
     /// <summary>
     /// DAVLAT TASHKILOTI TOIFASI
     /// </summary>
-    public int StateOrganizationId { get; set; }
-    [ForeignKey(nameof(StateOrganizationId))]
+    public int StateOrganizationIds { get; set; }
+    [ForeignKey(nameof(StateOrganizationIds))]
     public StateOrganization StateOrganization { get; set; }
 
     /// <summary>
@@ -26,7 +26,7 @@ public class Organization : AudiTable
     [ForeignKey(nameof(OrganizationId))]
     public Organization? SuperiorOrganization { get; set; }
 
-    public int StatusId { get; set; }
-    [ForeignKey(nameof(StatusId))]
-    public Status Status { get; set; }
+    public int StateId { get; set; }
+    [ForeignKey(nameof(StateId))]
+    public State State { get; set; }
 }

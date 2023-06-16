@@ -8,9 +8,9 @@ namespace DomainLayer.Entities.ENUM;
 /// DAVLAT TASHKILOTI TOIFASI
 /// </summary>
 [Table(TableNames.StateOrganization)]
-public class StateOrganization : AudiTable
+public class StateOrganization : BaseEnumTable
 {
-    public int StatusId { get; set; }
-    [ForeignKey(nameof(StatusId))]
-    public Status Status { get; set; }
+    public int StateId { get; set; }
+    [ForeignKey(nameof(StateId))]
+    public State State { get; set; }
 }

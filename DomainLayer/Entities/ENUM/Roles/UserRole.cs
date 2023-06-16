@@ -5,7 +5,6 @@ namespace DomainLayer.Entities.ENUM;
 [Table("enum_user_role", Schema = "public")]
 public class UserRole
 {
-    [Key]
     public int Id { get; set; }
     public string Name { get; set; }
 }

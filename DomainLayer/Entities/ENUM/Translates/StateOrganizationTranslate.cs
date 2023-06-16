@@ -6,7 +6,7 @@ namespace DomainLayer.Entities.ENUM;
 [Table(TableNames.StateOrganizationTranslate)]
 public class StateOrganizationTranslate : EntityTranslate
 {
-    public int StateOrganizationId { get; set; }
-    [ForeignKey(nameof(StateOrganizationId))]
+    public int owner_id { get; set; }
+    [ForeignKey(nameof(owner_id))]
     public StateOrganization StateOrganization { get; set; }
 }

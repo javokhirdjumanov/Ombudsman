@@ -1,6 +1,8 @@
-﻿using DomainLayer.Entities.DOC;
+﻿using DomainLayer.Entities;
+using DomainLayer.Entities.DOC;
 using DomainLayer.Entities.DOC.Files;
 using DomainLayer.Entities.ENUM;
+using DomainLayer.Entities.HL;
 using DomainLayer.Entities.INFO;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,12 +28,12 @@ public class ApplicationDbContext : DbContext
     public virtual DbSet<NormativeDocumentType> NormativeDocumentTypes { get; set; }
     public virtual DbSet<PerformerType> PerformerTypes { get; set; }
     public virtual DbSet<StateOrganization> StateOrganizations { get; set; }
-    public virtual DbSet<Status> Statuses { get; set; }
+    public virtual DbSet<State> Statuses { get; set; }
     /// <summary>
     /// ENUM TRANSLATE FILES
     /// </summary>
     public virtual DbSet<Language> Languages { get; set; }
-    public virtual DbSet<StatusTranslate> StatusTranslates { get; set; }
+    public virtual DbSet<StateTranslate> StatusTranslates { get; set; }
     public virtual DbSet<DocumentStatusTranslate> DocumentStatusTranslates { get; set; }
     public virtual DbSet<InitiativeTypeTranslate> InitiativeTypeTranslates { get; set; }
     public virtual DbSet<NormativeDocumentTypeTranslate> NormativeDocumentTypeTranslates { get; set; }
@@ -44,4 +46,10 @@ public class ApplicationDbContext : DbContext
     public virtual DbSet<Organization> Organizations { get; set; }
     public virtual DbSet<Sectors> Sectors { get; set; }
     public virtual DbSet<StateProgram> StatePrograms { get; set; }
+
+    /// <summary>
+    /// HL FILES
+    /// </summary>
+    public virtual DbSet<User> Users { get; set; }
+    public virtual DbSet<Employee> Employees { get; set; }
 }

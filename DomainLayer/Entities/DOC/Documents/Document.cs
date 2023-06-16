@@ -11,6 +11,7 @@ namespace DomainLayer.Entities.DOC;
 public class Document
 {
     [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
 
     /// <summary>

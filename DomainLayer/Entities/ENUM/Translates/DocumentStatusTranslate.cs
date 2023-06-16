@@ -6,7 +6,7 @@ namespace DomainLayer.Entities.ENUM;
 [Table(TableNames.DocumentStatusTranslate)]
 public class DocumentStatusTranslate : EntityTranslate
 {
-    public int DocumentStatusId { get; set; }
-    [ForeignKey(nameof(DocumentStatusId))]
+    public int owner_id { get; set; }
+    [ForeignKey(nameof(owner_id))]
     public DocumentStatus DocumentStatus { get; set; }
 }

@@ -16,24 +16,24 @@ public class ManualService : IManualService
     {
         return
             this.unitOfWork.context.NormativeDocumentTypes
-            .Include(x => x.Status);
+            .Include(x => x.State);
     }
 
     public IQueryable<PerformerType> PerformerTypesSelectList()
     {
         return
             this.unitOfWork.context.PerformerTypes
-            .Include(x => x.Status);
+            .Include(x => x.State);
     }
 
     public IQueryable<StateOrganization> StateOrganizationSelectList()
     {
         return
            this.unitOfWork.context.StateOrganizations
-           .Include(x => x.Status);
+           .Include(x => x.State);
     }
 
-    public IQueryable<Status> StatusSelectList()
+    public IQueryable<State> StatusSelectList()
     {
         return
             this.unitOfWork.context.Statuses;
@@ -46,11 +46,11 @@ public class ManualService : IManualService
 
     public IQueryable<DocumentStatus> DocumentStatusSelectList()
     {
-        return this.unitOfWork.context.DocumentStatuses.Include(d => d.Status);
+        return this.unitOfWork.context.DocumentStatuses.Include(d => d.State);
     }
 
     public IQueryable<DocumentImportance> DocumentImportanceSelectList()
     {
-        return this.unitOfWork.context.DocumentImportances.Include(d => d.Status);
+        return this.unitOfWork.context.DocumentImportances.Include(d => d.State);
     }
 }

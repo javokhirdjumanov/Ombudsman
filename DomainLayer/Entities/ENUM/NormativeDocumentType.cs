@@ -7,11 +7,11 @@ namespace DomainLayer.Entities.ENUM;
 /// MEYORIY HUJJAT TURI
 /// </summary>
 [Table(TableNames.NormativeDocument)]
-public class NormativeDocumentType : AudiTable
+public class NormativeDocumentType : BaseEnumTable
 {
     public string ShortCharacter { get; set; }
 
-    public int StatusId { get; set; }
-    [ForeignKey(nameof(StatusId))]
-    public Status Status { get; set; }
+    public int StateId { get; set; }
+    [ForeignKey(nameof(StateId))]
+    public State State { get; set; }
 }

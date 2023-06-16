@@ -10,6 +10,7 @@ namespace DomainLayer.Entities.ENUM;
 public class InitiativeType
 {
     [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.None)]
     public int Id { get; set; }
     public string Names { get; set; }
 }

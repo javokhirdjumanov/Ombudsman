@@ -8,9 +8,9 @@ namespace DomainLayer.Entities.ENUM;
 /// HUJJAT HOLATI
 /// </summary>
 [Table(TableNames.DocumentStatus)]
-public class DocumentStatus : AudiTable
+public class DocumentStatus : BaseEnumTable
 {
     public int StatusId { get; set; }
     [ForeignKey(nameof(StatusId))]
-    public Status Status { get; set; }
+    public State State { get; set; }
 }

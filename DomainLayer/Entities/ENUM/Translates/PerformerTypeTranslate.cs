@@ -6,7 +6,7 @@ namespace DomainLayer.Entities.ENUM;
 [Table(TableNames.PerformerTypeTranslate)]
 public class PerformerTypeTranslate : EntityTranslate
 {
-    public int PerformerTypeId { get; set; }
-    [ForeignKey(nameof(PerformerTypeId))]
+    public int owner_id { get; set; }
+    [ForeignKey(nameof(owner_id))]
     public PerformerType PerformerType { get; set; }
 }

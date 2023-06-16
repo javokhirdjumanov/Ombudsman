@@ -7,6 +7,7 @@ namespace DomainLayer.Entities.DOC.Files;
 public class FileModel
 {
     [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
     public string Type { get; set; }
     public string FileName { get; set; }

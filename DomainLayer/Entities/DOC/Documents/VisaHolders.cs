@@ -8,6 +8,7 @@ namespace DomainLayer.Entities.DOC;
 public class VisaHolders
 {
     [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
 
     /// <summary>

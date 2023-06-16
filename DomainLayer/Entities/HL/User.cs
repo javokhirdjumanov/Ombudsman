@@ -1,10 +1,11 @@
-﻿using DomainLayer.Entities.ENUM;
+﻿using DomainLayer.Constants;
+using DomainLayer.Entities.ENUM;
 using DomainLayer.Entities.INFO;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DomainLayer.Entities.HL;
-[Table("hl_user", Schema = "public")]
+[Table(TableNames.User, Schema = "public")]
 public class User
 {
     private const int DEFAULT_EXPIRE_DATE_IN_MINUTES = 1440;
@@ -17,6 +18,7 @@ public class User
     public string PasswordHash { get; set; }
     public string Salt { get; set; }
     public string? RefreshToken { get; private set; }
+    [Column(TypeName = "timestamp without time zone")]
     public DateTime? RefreshTokenExpiredDate { get; private set; }
 
     public int? OrganizationId { get; set; }
@@ -30,7 +32,7 @@ public class User
     public int RoleId { get; set; }
     [ForeignKey(nameof(RoleId))]
     public UserRole Role { get; set; }
-
+    [Column(TypeName = "timestamp without time zone")]
     public DateTime CreateAt { get; set; } = DateTime.Now;
 
     public void UpdateRefreshToken(string refreshToken, int expireDateInMinutes = DEFAULT_EXPIRE_DATE_IN_MINUTES)

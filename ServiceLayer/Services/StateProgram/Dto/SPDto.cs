@@ -6,4 +6,4 @@ public record SPDto(
     int order_number,
     string? short_name,
     string? full_name,
-    Status Status);
+    State Status);

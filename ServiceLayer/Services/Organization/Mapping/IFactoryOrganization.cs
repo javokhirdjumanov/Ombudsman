@@ -5,6 +5,6 @@ namespace ServiceLayer.Services;
 public interface IFactoryOrganization
 {
     OrgDto MapToOrganizationDto(Organization organization);
-    Organization MapToOrganization(OrgDlDto dto, StateOrganization stateOrganization, Organization? organization, Status status);
+    Organization MapToOrganization(OrgDlDto dto, StateOrganization stateOrganization, Organization? organization, State status);
     void MapToOrganization(Organization organization, OrgDlDtoForModify orgDlDtoForModify);
 }

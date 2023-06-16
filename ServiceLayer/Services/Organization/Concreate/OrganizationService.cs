@@ -32,11 +32,11 @@ public class OrganizationService : IOrganizationService
         Organization? child_organization = await this.unitOfWork.context.Organizations
             .FirstOrDefaultAsync(c => c.Id == orgDlDto.organization_id);
 
-        Status? status = await this.unitOfWork.context.Statuses
+        State? status = await this.unitOfWork.context.Statuses
             .FirstOrDefaultAsync(s => s.Id ==  orgDlDto.status_id);
 
         ValidationStorageObj
-            .GenericValidation<Status>(status, orgDlDto.state_organization_id);
+            .GenericValidation<State>(status, orgDlDto.state_organization_id);
 
         var newOrg = this.factoryOrganization
             .MapToOrganization(orgDlDto, stateOrg, child_organization, status);
@@ -51,10 +51,10 @@ public class OrganizationService : IOrganizationService
     {
         var organization = await this.organizationRepository
             .SelectByIdWithDetailsAsync(
-            expression: org => org.Id == id && org.StatusId != 3,
+            expression: org => org.Id == id && org.StateId != 3,
             includes: new string[]
             { 
-                nameof(Organization.Status),
+                nameof(Organization.State),
                 nameof(Organization.StateOrganization)
             });
 
@@ -68,7 +68,7 @@ public class OrganizationService : IOrganizationService
     {
         var organizations = this.organizationRepository
             .SelectAll()
-            .Where(x => x.StatusId != 3);
+            .Where(x => x.StateId != 3);
 
         return organizations
             .Select(org => this.factoryOrganization
@@ -82,7 +82,7 @@ public class OrganizationService : IOrganizationService
         ValidationStorageObj
             .GenericValidation<Organization>(removeOrg, id);
 
-        removeOrg.Status = this.unitOfWork.context.Statuses
+        removeOrg.State = this.unitOfWork.context.Statuses
             .FirstOrDefaultAsync(x => x.Id == 3).Result;
 
         var updateOrg = await this.organizationRepository

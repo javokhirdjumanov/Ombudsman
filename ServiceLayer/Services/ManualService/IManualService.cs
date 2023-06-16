@@ -7,7 +7,7 @@ public interface IManualService
     IQueryable<NormativeDocumentType> NormativeDocumentTypesSelectList();
     IQueryable<PerformerType> PerformerTypesSelectList();
     IQueryable<StateOrganization> StateOrganizationSelectList();
-    IQueryable<Status> StatusSelectList();
+    IQueryable<State> StatusSelectList();
     IQueryable<InitiativeType> InitiativeTypesSelectList();
     IQueryable<DocumentStatus> DocumentStatusSelectList();
     IQueryable<DocumentImportance> DocumentImportanceSelectList();

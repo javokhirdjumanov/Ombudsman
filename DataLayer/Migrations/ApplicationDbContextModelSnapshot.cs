@@ -302,7 +302,7 @@ namespace DataLayer.Migrations
                     b.ToTable("doc_visa_holders_for_doc", (string)null);
                 });
 
-            modelBuilder.Entity("DomainLayer.Entities.ENUM.DocumentStatus", b =>
+            modelBuilder.Entity("DomainLayer.Entities.Employee", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -310,6 +310,44 @@ namespace DataLayer.Migrations
                         .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("email");
+
+                    b.Property<string>("FIO")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("fio");
+
+                    b.Property<int>("OrganizationId")
+                        .HasColumnType("integer")
+                        .HasColumnName("organization_id");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("phone_number");
+
+                    b.Property<double>("Salary")
+                        .HasColumnType("double precision")
+                        .HasColumnName("salary");
+
+                    b.HasKey("Id")
+                        .HasName("pk_hl_employee");
+
+                    b.HasIndex("OrganizationId")
+                        .HasDatabaseName("ix_hl_employee_organization_id");
+
+                    b.ToTable("hl_employee", "public");
+                });
+
+            modelBuilder.Entity("DomainLayer.Entities.ENUM.DocumentStatus", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
 
                     b.Property<string>("FullName")
                         .HasColumnType("text")
@@ -339,20 +377,13 @@ namespace DataLayer.Migrations
             modelBuilder.Entity("DomainLayer.Entities.ENUM.DocumentStatusTranslate", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasColumnName("id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ColumnName")
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("column_name");
-
-                    b.Property<int>("DocumentStatusId")
-                        .HasColumnType("integer")
-                        .HasColumnName("document_status_id");
 
                     b.Property<int>("LanguageId")
                         .HasColumnType("integer")
@@ -363,14 +394,18 @@ namespace DataLayer.Migrations
                         .HasColumnType("text")
                         .HasColumnName("translate_text");
 
+                    b.Property<int>("owner_id")
+                        .HasColumnType("integer")
+                        .HasColumnName("owner_id");
+
                     b.HasKey("Id")
                         .HasName("pk_enum_document_status_translate");
 
-                    b.HasIndex("DocumentStatusId")
-                        .HasDatabaseName("ix_enum_document_status_translate_document_status_id");
-
                     b.HasIndex("LanguageId")
                         .HasDatabaseName("ix_enum_document_status_translate_language_id");
+
+                    b.HasIndex("owner_id")
+                        .HasDatabaseName("ix_enum_document_status_translate_owner_id");
 
                     b.ToTable("enum_document_status_translate", (string)null);
                 });
@@ -378,11 +413,8 @@ namespace DataLayer.Migrations
             modelBuilder.Entity("DomainLayer.Entities.ENUM.InitiativeType", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasColumnName("id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Names")
                         .IsRequired()
@@ -398,20 +430,13 @@ namespace DataLayer.Migrations
             modelBuilder.Entity("DomainLayer.Entities.ENUM.InitiativeTypeTranslate", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasColumnName("id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ColumnName")
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("column_name");
-
-                    b.Property<int>("InitiativeTypeId")
-                        .HasColumnType("integer")
-                        .HasColumnName("initiative_type_id");
 
                     b.Property<int>("LanguageId")
                         .HasColumnType("integer")
@@ -422,14 +447,18 @@ namespace DataLayer.Migrations
                         .HasColumnType("text")
                         .HasColumnName("translate_text");
 
+                    b.Property<int>("owner_id")
+                        .HasColumnType("integer")
+                        .HasColumnName("owner_id");
+
                     b.HasKey("Id")
                         .HasName("pk_enum_initiative_type_translate");
 
-                    b.HasIndex("InitiativeTypeId")
-                        .HasDatabaseName("ix_enum_initiative_type_translate_initiative_type_id");
-
                     b.HasIndex("LanguageId")
                         .HasDatabaseName("ix_enum_initiative_type_translate_language_id");
+
+                    b.HasIndex("owner_id")
+                        .HasDatabaseName("ix_enum_initiative_type_translate_owner_id");
 
                     b.ToTable("enum_initiative_type_translate", (string)null);
                 });
@@ -462,11 +491,8 @@ namespace DataLayer.Migrations
             modelBuilder.Entity("DomainLayer.Entities.ENUM.NormativeDocumentType", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasColumnName("id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("FullName")
                         .HasColumnType("text")
@@ -485,15 +511,15 @@ namespace DataLayer.Migrations
                         .HasColumnType("text")
                         .HasColumnName("short_name");
 
-                    b.Property<int>("StatusId")
+                    b.Property<int>("StateId")
                         .HasColumnType("integer")
-                        .HasColumnName("status_id");
+                        .HasColumnName("state_id");
 
                     b.HasKey("Id")
                         .HasName("pk_enum_normative_document");
 
-                    b.HasIndex("StatusId")
-                        .HasDatabaseName("ix_enum_normative_document_status_id");
+                    b.HasIndex("StateId")
+                        .HasDatabaseName("ix_enum_normative_document_state_id");
 
                     b.ToTable("enum_normative_document", (string)null);
                 });
@@ -501,11 +527,8 @@ namespace DataLayer.Migrations
             modelBuilder.Entity("DomainLayer.Entities.ENUM.NormativeDocumentTypeTranslate", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasColumnName("id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ColumnName")
                         .IsRequired()
@@ -516,14 +539,14 @@ namespace DataLayer.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("language_id");
 
-                    b.Property<int>("NormativeDocumentTypeId")
-                        .HasColumnType("integer")
-                        .HasColumnName("normative_document_type_id");
-
                     b.Property<string>("TranslateText")
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("translate_text");
+
+                    b.Property<int>("owner_id")
+                        .HasColumnType("integer")
+                        .HasColumnName("owner_id");
 
                     b.HasKey("Id")
                         .HasName("pk_enum_normative_document_translate");
@@ -531,8 +554,8 @@ namespace DataLayer.Migrations
                     b.HasIndex("LanguageId")
                         .HasDatabaseName("ix_enum_normative_document_translate_language_id");
 
-                    b.HasIndex("NormativeDocumentTypeId")
-                        .HasDatabaseName("ix_enum_normative_document_translate_normative_document_type_id");
+                    b.HasIndex("owner_id")
+                        .HasDatabaseName("ix_enum_normative_document_translate_owner_id");
 
                     b.ToTable("enum_normative_document_translate", (string)null);
                 });
@@ -540,11 +563,8 @@ namespace DataLayer.Migrations
             modelBuilder.Entity("DomainLayer.Entities.ENUM.PerformerType", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasColumnName("id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("FullName")
                         .HasColumnType("text")
@@ -558,15 +578,15 @@ namespace DataLayer.Migrations
                         .HasColumnType("text")
                         .HasColumnName("short_name");
 
-                    b.Property<int>("StatusId")
+                    b.Property<int>("StateId")
                         .HasColumnType("integer")
-                        .HasColumnName("status_id");
+                        .HasColumnName("state_id");
 
                     b.HasKey("Id")
                         .HasName("pk_enum_performer_type");
 
-                    b.HasIndex("StatusId")
-                        .HasDatabaseName("ix_enum_performer_type_status_id");
+                    b.HasIndex("StateId")
+                        .HasDatabaseName("ix_enum_performer_type_state_id");
 
                     b.ToTable("enum_performer_type", (string)null);
                 });
@@ -574,11 +594,8 @@ namespace DataLayer.Migrations
             modelBuilder.Entity("DomainLayer.Entities.ENUM.PerformerTypeTranslate", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasColumnName("id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ColumnName")
                         .IsRequired()
@@ -589,14 +606,14 @@ namespace DataLayer.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("language_id");
 
-                    b.Property<int>("PerformerTypeId")
-                        .HasColumnType("integer")
-                        .HasColumnName("performer_type_id");
-
                     b.Property<string>("TranslateText")
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("translate_text");
+
+                    b.Property<int>("owner_id")
+                        .HasColumnType("integer")
+                        .HasColumnName("owner_id");
 
                     b.HasKey("Id")
                         .HasName("pk_enum_performer_type_translate");
@@ -604,20 +621,34 @@ namespace DataLayer.Migrations
                     b.HasIndex("LanguageId")
                         .HasDatabaseName("ix_enum_performer_type_translate_language_id");
 
-                    b.HasIndex("PerformerTypeId")
-                        .HasDatabaseName("ix_enum_performer_type_translate_performer_type_id");
+                    b.HasIndex("owner_id")
+                        .HasDatabaseName("ix_enum_performer_type_translate_owner_id");
 
                     b.ToTable("enum_performer_type_translate", (string)null);
+                });
+
+            modelBuilder.Entity("DomainLayer.Entities.ENUM.State", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("name");
+
+                    b.HasKey("Id")
+                        .HasName("pk_enum_state");
+
+                    b.ToTable("enum_state", (string)null);
                 });
 
             modelBuilder.Entity("DomainLayer.Entities.ENUM.StateOrganization", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasColumnName("id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("FullName")
                         .HasColumnType("text")
@@ -631,15 +662,15 @@ namespace DataLayer.Migrations
                         .HasColumnType("text")
                         .HasColumnName("short_name");
 
-                    b.Property<int>("StatusId")
+                    b.Property<int>("StateId")
                         .HasColumnType("integer")
-                        .HasColumnName("status_id");
+                        .HasColumnName("state_id");
 
                     b.HasKey("Id")
                         .HasName("pk_enum_state_organization");
 
-                    b.HasIndex("StatusId")
-                        .HasDatabaseName("ix_enum_state_organization_status_id");
+                    b.HasIndex("StateId")
+                        .HasDatabaseName("ix_enum_state_organization_state_id");
 
                     b.ToTable("enum_state_organization", (string)null);
                 });
@@ -647,11 +678,8 @@ namespace DataLayer.Migrations
             modelBuilder.Entity("DomainLayer.Entities.ENUM.StateOrganizationTranslate", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasColumnName("id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ColumnName")
                         .IsRequired()
@@ -662,14 +690,14 @@ namespace DataLayer.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("language_id");
 
-                    b.Property<int>("StateOrganizationId")
-                        .HasColumnType("integer")
-                        .HasColumnName("state_organization_id");
-
                     b.Property<string>("TranslateText")
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("translate_text");
+
+                    b.Property<int>("owner_id")
+                        .HasColumnType("integer")
+                        .HasColumnName("owner_id");
 
                     b.HasKey("Id")
                         .HasName("pk_enum_state_organization_translate");
@@ -677,40 +705,17 @@ namespace DataLayer.Migrations
                     b.HasIndex("LanguageId")
                         .HasDatabaseName("ix_enum_state_organization_translate_language_id");
 
-                    b.HasIndex("StateOrganizationId")
-                        .HasDatabaseName("ix_enum_state_organization_translate_state_organization_id");
+                    b.HasIndex("owner_id")
+                        .HasDatabaseName("ix_enum_state_organization_translate_owner_id");
 
                     b.ToTable("enum_state_organization_translate", (string)null);
                 });
 
-            modelBuilder.Entity("DomainLayer.Entities.ENUM.Status", b =>
+            modelBuilder.Entity("DomainLayer.Entities.ENUM.StateTranslate", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasColumnName("id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("name");
-
-                    b.HasKey("Id")
-                        .HasName("pk_enum_status");
-
-                    b.ToTable("enum_status", (string)null);
-                });
-
-            modelBuilder.Entity("DomainLayer.Entities.ENUM.StatusTranslate", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ColumnName")
                         .IsRequired()
@@ -721,25 +726,25 @@ namespace DataLayer.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("language_id");
 
-                    b.Property<int>("StatusId")
-                        .HasColumnType("integer")
-                        .HasColumnName("status_id");
-
                     b.Property<string>("TranslateText")
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("translate_text");
 
+                    b.Property<int>("owner_id")
+                        .HasColumnType("integer")
+                        .HasColumnName("owner_id");
+
                     b.HasKey("Id")
-                        .HasName("pk_enum_status_translate");
+                        .HasName("pk_enum_state_translate");
 
                     b.HasIndex("LanguageId")
-                        .HasDatabaseName("ix_enum_status_translate_language_id");
+                        .HasDatabaseName("ix_enum_state_translate_language_id");
 
-                    b.HasIndex("StatusId")
-                        .HasDatabaseName("ix_enum_status_translate_status_id");
+                    b.HasIndex("owner_id")
+                        .HasDatabaseName("ix_enum_state_translate_owner_id");
 
-                    b.ToTable("enum_status_translate", (string)null);
+                    b.ToTable("enum_state_translate", (string)null);
                 });
 
             modelBuilder.Entity("DomainLayer.Entities.ENUM.UserRole", b =>
@@ -772,7 +777,7 @@ namespace DataLayer.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreateAt")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("create_at");
 
                     b.Property<string>("Email")
@@ -789,7 +794,8 @@ namespace DataLayer.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("language_id");
 
-                    b.Property<int>("OrganizationId")
+                    b.Property<int?>("OrganizationId")
+                        .IsRequired()
                         .HasColumnType("integer")
                         .HasColumnName("organization_id");
 
@@ -808,7 +814,7 @@ namespace DataLayer.Migrations
                         .HasColumnName("refresh_token");
 
                     b.Property<DateTime?>("RefreshTokenExpiredDate")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("refresh_token_expired_date");
 
                     b.Property<int>("RoleId")
@@ -856,15 +862,15 @@ namespace DataLayer.Migrations
                         .HasColumnType("text")
                         .HasColumnName("short_name");
 
-                    b.Property<int>("StatusId")
+                    b.Property<int>("StateId")
                         .HasColumnType("integer")
-                        .HasColumnName("status_id");
+                        .HasColumnName("state_id");
 
                     b.HasKey("Id")
                         .HasName("pk_info_document_importance");
 
-                    b.HasIndex("StatusId")
-                        .HasDatabaseName("ix_info_document_importance_status_id");
+                    b.HasIndex("StateId")
+                        .HasDatabaseName("ix_info_document_importance_state_id");
 
                     b.ToTable("info_document_importance", "public");
                 });
@@ -890,7 +896,7 @@ namespace DataLayer.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("order_number");
 
-                    b.Property<int>("OrganizationId")
+                    b.Property<int?>("OrganizationId")
                         .HasColumnType("integer")
                         .HasColumnName("organization_id");
 
@@ -898,13 +904,13 @@ namespace DataLayer.Migrations
                         .HasColumnType("text")
                         .HasColumnName("short_name");
 
-                    b.Property<int>("StateOrganizationId")
+                    b.Property<int>("StateId")
                         .HasColumnType("integer")
-                        .HasColumnName("state_organization_id");
+                        .HasColumnName("state_id");
 
-                    b.Property<int>("StatusId")
+                    b.Property<int>("StateOrganizationIds")
                         .HasColumnType("integer")
-                        .HasColumnName("status_id");
+                        .HasColumnName("state_organization_ids");
 
                     b.HasKey("Id")
                         .HasName("pk_info_organization");
@@ -912,11 +918,11 @@ namespace DataLayer.Migrations
                     b.HasIndex("OrganizationId")
                         .HasDatabaseName("ix_info_organization_organization_id");
 
-                    b.HasIndex("StateOrganizationId")
-                        .HasDatabaseName("ix_info_organization_state_organization_id");
+                    b.HasIndex("StateId")
+                        .HasDatabaseName("ix_info_organization_state_id");
 
-                    b.HasIndex("StatusId")
-                        .HasDatabaseName("ix_info_organization_status_id");
+                    b.HasIndex("StateOrganizationIds")
+                        .HasDatabaseName("ix_info_organization_state_organization_ids");
 
                     b.ToTable("info_organization", (string)null);
                 });
@@ -946,15 +952,15 @@ namespace DataLayer.Migrations
                         .HasColumnType("text")
                         .HasColumnName("short_name");
 
-                    b.Property<int>("StatusId")
+                    b.Property<int>("StateId")
                         .HasColumnType("integer")
-                        .HasColumnName("status_id");
+                        .HasColumnName("state_id");
 
                     b.HasKey("Id")
                         .HasName("pk_info_sectors");
 
-                    b.HasIndex("StatusId")
-                        .HasDatabaseName("ix_info_sectors_status_id");
+                    b.HasIndex("StateId")
+                        .HasDatabaseName("ix_info_sectors_state_id");
 
                     b.ToTable("info_sectors", (string)null);
                 });
@@ -980,15 +986,15 @@ namespace DataLayer.Migrations
                         .HasColumnType("text")
                         .HasColumnName("short_name");
 
-                    b.Property<int>("StatusId")
+                    b.Property<int>("StateId")
                         .HasColumnType("integer")
-                        .HasColumnName("status_id");
+                        .HasColumnName("state_id");
 
                     b.HasKey("Id")
                         .HasName("pk_info_state_program");
 
-                    b.HasIndex("StatusId")
-                        .HasDatabaseName("ix_info_state_program_status_id");
+                    b.HasIndex("StateId")
+                        .HasDatabaseName("ix_info_state_program_state_id");
 
                     b.ToTable("info_state_program", "public");
                 });
@@ -1127,33 +1133,45 @@ namespace DataLayer.Migrations
                     b.Navigation("Organization");
                 });
 
+            modelBuilder.Entity("DomainLayer.Entities.Employee", b =>
+                {
+                    b.HasOne("DomainLayer.Entities.INFO.Organization", "Organization")
+                        .WithMany()
+                        .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_hl_employee_info_organization_organization_id");
+
+                    b.Navigation("Organization");
+                });
+
             modelBuilder.Entity("DomainLayer.Entities.ENUM.DocumentStatus", b =>
                 {
-                    b.HasOne("DomainLayer.Entities.ENUM.Status", "Status")
+                    b.HasOne("DomainLayer.Entities.ENUM.State", "State")
                         .WithMany()
                         .HasForeignKey("StatusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_enum_document_status_enum_status_status_id");
+                        .HasConstraintName("fk_enum_document_status_enum_state_status_id");
 
-                    b.Navigation("Status");
+                    b.Navigation("State");
                 });
 
             modelBuilder.Entity("DomainLayer.Entities.ENUM.DocumentStatusTranslate", b =>
                 {
-                    b.HasOne("DomainLayer.Entities.ENUM.DocumentStatus", "DocumentStatus")
-                        .WithMany()
-                        .HasForeignKey("DocumentStatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_enum_document_status_translate_enum_document_status_documen");
-
                     b.HasOne("DomainLayer.Entities.ENUM.Language", "Languages")
                         .WithMany()
                         .HasForeignKey("LanguageId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_enum_document_status_translate_enum_language_language_id");
+
+                    b.HasOne("DomainLayer.Entities.ENUM.DocumentStatus", "DocumentStatus")
+                        .WithMany()
+                        .HasForeignKey("owner_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_enum_document_status_translate_enum_document_status_owner_id");
 
                     b.Navigation("DocumentStatus");
 
@@ -1162,19 +1180,19 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DomainLayer.Entities.ENUM.InitiativeTypeTranslate", b =>
                 {
-                    b.HasOne("DomainLayer.Entities.ENUM.InitiativeType", "InitiativeType")
-                        .WithMany()
-                        .HasForeignKey("InitiativeTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_enum_initiative_type_translate_enum_initiative_type_initiat");
-
                     b.HasOne("DomainLayer.Entities.ENUM.Language", "Languages")
                         .WithMany()
                         .HasForeignKey("LanguageId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_enum_initiative_type_translate_enum_language_language_id");
+
+                    b.HasOne("DomainLayer.Entities.ENUM.InitiativeType", "InitiativeType")
+                        .WithMany()
+                        .HasForeignKey("owner_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_enum_initiative_type_translate_enum_initiative_type_owner_id");
 
                     b.Navigation("InitiativeType");
 
@@ -1183,14 +1201,14 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DomainLayer.Entities.ENUM.NormativeDocumentType", b =>
                 {
-                    b.HasOne("DomainLayer.Entities.ENUM.Status", "Status")
+                    b.HasOne("DomainLayer.Entities.ENUM.State", "State")
                         .WithMany()
-                        .HasForeignKey("StatusId")
+                        .HasForeignKey("StateId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_enum_normative_document_enum_status_status_id");
+                        .HasConstraintName("fk_enum_normative_document_enum_state_state_id");
 
-                    b.Navigation("Status");
+                    b.Navigation("State");
                 });
 
             modelBuilder.Entity("DomainLayer.Entities.ENUM.NormativeDocumentTypeTranslate", b =>
@@ -1204,10 +1222,10 @@ namespace DataLayer.Migrations
 
                     b.HasOne("DomainLayer.Entities.ENUM.NormativeDocumentType", "NormativeDocumentType")
                         .WithMany()
-                        .HasForeignKey("NormativeDocumentTypeId")
+                        .HasForeignKey("owner_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_enum_normative_document_translate_enum_normative_document_n");
+                        .HasConstraintName("fk_enum_normative_document_translate_enum_normative_document_o");
 
                     b.Navigation("Languages");
 
@@ -1216,14 +1234,14 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DomainLayer.Entities.ENUM.PerformerType", b =>
                 {
-                    b.HasOne("DomainLayer.Entities.ENUM.Status", "Status")
+                    b.HasOne("DomainLayer.Entities.ENUM.State", "State")
                         .WithMany()
-                        .HasForeignKey("StatusId")
+                        .HasForeignKey("StateId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_enum_performer_type_enum_status_status_id");
+                        .HasConstraintName("fk_enum_performer_type_enum_state_state_id");
 
-                    b.Navigation("Status");
+                    b.Navigation("State");
                 });
 
             modelBuilder.Entity("DomainLayer.Entities.ENUM.PerformerTypeTranslate", b =>
@@ -1237,10 +1255,10 @@ namespace DataLayer.Migrations
 
                     b.HasOne("DomainLayer.Entities.ENUM.PerformerType", "PerformerType")
                         .WithMany()
-                        .HasForeignKey("PerformerTypeId")
+                        .HasForeignKey("owner_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_enum_performer_type_translate_enum_performer_type_performer");
+                        .HasConstraintName("fk_enum_performer_type_translate_enum_performer_type_owner_id");
 
                     b.Navigation("Languages");
 
@@ -1249,14 +1267,14 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DomainLayer.Entities.ENUM.StateOrganization", b =>
                 {
-                    b.HasOne("DomainLayer.Entities.ENUM.Status", "Status")
+                    b.HasOne("DomainLayer.Entities.ENUM.State", "State")
                         .WithMany()
-                        .HasForeignKey("StatusId")
+                        .HasForeignKey("StateId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_enum_state_organization_enum_status_status_id");
+                        .HasConstraintName("fk_enum_state_organization_enum_state_state_id");
 
-                    b.Navigation("Status");
+                    b.Navigation("State");
                 });
 
             modelBuilder.Entity("DomainLayer.Entities.ENUM.StateOrganizationTranslate", b =>
@@ -1270,35 +1288,35 @@ namespace DataLayer.Migrations
 
                     b.HasOne("DomainLayer.Entities.ENUM.StateOrganization", "StateOrganization")
                         .WithMany()
-                        .HasForeignKey("StateOrganizationId")
+                        .HasForeignKey("owner_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_enum_state_organization_translate_enum_state_organization_s");
+                        .HasConstraintName("fk_enum_state_organization_translate_enum_state_organization_o");
 
                     b.Navigation("Languages");
 
                     b.Navigation("StateOrganization");
                 });
 
-            modelBuilder.Entity("DomainLayer.Entities.ENUM.StatusTranslate", b =>
+            modelBuilder.Entity("DomainLayer.Entities.ENUM.StateTranslate", b =>
                 {
                     b.HasOne("DomainLayer.Entities.ENUM.Language", "Languages")
                         .WithMany()
                         .HasForeignKey("LanguageId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_enum_status_translate_enum_language_language_id");
+                        .HasConstraintName("fk_enum_state_translate_enum_language_language_id");
 
-                    b.HasOne("DomainLayer.Entities.ENUM.Status", "Status")
+                    b.HasOne("DomainLayer.Entities.ENUM.State", "State")
                         .WithMany()
-                        .HasForeignKey("StatusId")
+                        .HasForeignKey("owner_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_enum_status_translate_enum_status_status_id");
+                        .HasConstraintName("fk_enum_state_translate_enum_state_owner_id");
 
                     b.Navigation("Languages");
 
-                    b.Navigation("Status");
+                    b.Navigation("State");
                 });
 
             modelBuilder.Entity("DomainLayer.Entities.HL.User", b =>
@@ -1333,14 +1351,14 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DomainLayer.Entities.INFO.DocumentImportance", b =>
                 {
-                    b.HasOne("DomainLayer.Entities.ENUM.Status", "Status")
+                    b.HasOne("DomainLayer.Entities.ENUM.State", "State")
                         .WithMany()
-                        .HasForeignKey("StatusId")
+                        .HasForeignKey("StateId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_info_document_importance_enum_status_status_id");
+                        .HasConstraintName("fk_info_document_importance_enum_state_state_id");
 
-                    b.Navigation("Status");
+                    b.Navigation("State");
                 });
 
             modelBuilder.Entity("DomainLayer.Entities.INFO.Organization", b =>
@@ -1348,53 +1366,51 @@ namespace DataLayer.Migrations
                     b.HasOne("DomainLayer.Entities.INFO.Organization", "SuperiorOrganization")
                         .WithMany()
                         .HasForeignKey("OrganizationId")
+                        .HasConstraintName("fk_info_organization_info_organization_organization_id");
+
+                    b.HasOne("DomainLayer.Entities.ENUM.State", "State")
+                        .WithMany()
+                        .HasForeignKey("StateId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_info_organization_info_organization_organization_id");
+                        .HasConstraintName("fk_info_organization_enum_state_state_id");
 
                     b.HasOne("DomainLayer.Entities.ENUM.StateOrganization", "StateOrganization")
                         .WithMany()
-                        .HasForeignKey("StateOrganizationId")
+                        .HasForeignKey("StateOrganizationIds")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_info_organization_enum_state_organization_state_organizatio");
 
-                    b.HasOne("DomainLayer.Entities.ENUM.Status", "Status")
-                        .WithMany()
-                        .HasForeignKey("StatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_info_organization_enum_status_status_id");
+                    b.Navigation("State");
 
                     b.Navigation("StateOrganization");
-
-                    b.Navigation("Status");
 
                     b.Navigation("SuperiorOrganization");
                 });
 
             modelBuilder.Entity("DomainLayer.Entities.INFO.Sectors", b =>
                 {
-                    b.HasOne("DomainLayer.Entities.ENUM.Status", "Status")
+                    b.HasOne("DomainLayer.Entities.ENUM.State", "State")
                         .WithMany()
-                        .HasForeignKey("StatusId")
+                        .HasForeignKey("StateId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_info_sectors_enum_status_status_id");
+                        .HasConstraintName("fk_info_sectors_enum_state_state_id");
 
-                    b.Navigation("Status");
+                    b.Navigation("State");
                 });
 
             modelBuilder.Entity("DomainLayer.Entities.INFO.StateProgram", b =>
                 {
-                    b.HasOne("DomainLayer.Entities.ENUM.Status", "Status")
+                    b.HasOne("DomainLayer.Entities.ENUM.State", "State")
                         .WithMany()
-                        .HasForeignKey("StatusId")
+                        .HasForeignKey("StateId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_info_state_program_enum_status_status_id");
+                        .HasConstraintName("fk_info_state_program_enum_state_state_id");
 
-                    b.Navigation("Status");
+                    b.Navigation("State");
                 });
 
             modelBuilder.Entity("DomainLayer.Entities.DOC.Document", b =>

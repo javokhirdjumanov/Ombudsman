@@ -6,7 +6,7 @@ namespace DomainLayer.Entities.ENUM;
 [Table(TableNames.NormativeDocumentTranslate)]
 public class NormativeDocumentTypeTranslate : EntityTranslate
 {
-    public int NormativeDocumentTypeId { get; set; }
-    [ForeignKey(nameof(NormativeDocumentTypeId))]
+    public int owner_id { get; set; }
+    [ForeignKey(nameof(owner_id))]
     public NormativeDocumentType NormativeDocumentType { get; set; }
 }

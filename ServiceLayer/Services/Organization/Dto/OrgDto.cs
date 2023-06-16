@@ -11,5 +11,5 @@ public class OrgDto
     public Organization? supreor_organization { get; set; }
     public string? short_name { get; set; }
     public string? full_name { get; set; }
-    public Status status { get; set; }
+    public State status { get; set; }
 }

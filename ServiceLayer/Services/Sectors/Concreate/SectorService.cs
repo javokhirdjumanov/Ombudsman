@@ -25,12 +25,12 @@ public class SectorService : ISectorService
             .FirstOrDefaultAsync(x => x.Id == sector.status_id);
 
         ValidationStorageObj
-            .GenericValidation<Status>(storageStatus, sector.status_id);
+            .GenericValidation<State>(storageStatus, sector.status_id);
 
         var newSector = new Sectors
         {
             SectorNumber = sector.sector_number,
-            Status = storageStatus,
+            State = storageStatus,
             OrderNumber = sector.order_number,
             ShortName = sector.short_name,
             FullName = sector.full_name
@@ -42,8 +42,8 @@ public class SectorService : ISectorService
         return new SectorDto(
                 addedSector.Id,
                 addedSector.SectorNumber,
-                new Status{Id = addedSector.StatusId,
-                Name = addedSector.Status.Name},
+                new State{Id = addedSector.StateId,
+                Name = addedSector.State.Name},
                 addedSector.OrderNumber,
                 addedSector.ShortName,
                 addedSector.FullName);
@@ -53,11 +53,11 @@ public class SectorService : ISectorService
     {
         var allSectors = this.sectorRepository
             .SelectAll()
-            .Include(se => se.Status).Where(se => se.StatusId != 3);
+            .Include(se => se.State).Where(se => se.StateId != 3);
 
         return allSectors.Select(x => new SectorDto(x.Id,
                 x.SectorNumber,
-                new Status { Id = x.StatusId, Name = x.Status.Name},
+                new State { Id = x.StateId, Name = x.State.Name},
                 x.OrderNumber,
                 x.ShortName,
                 x.FullName));
@@ -76,7 +76,7 @@ public class SectorService : ISectorService
         var deleteStatusObj = this.unitOfWork.context.Statuses
             .FirstOrDefault(x => x.Id == 3);
 
-        storageSector.Status = deleteStatusObj;
+        storageSector.State = deleteStatusObj;
 
         var updateSector = await this.sectorRepository
             .UpdateAsync(storageSector);
@@ -84,7 +84,7 @@ public class SectorService : ISectorService
         return new SectorDto(
            updateSector.Id,
            updateSector.OrderNumber,
-           new Status { Id = updateSector.StatusId, Name = updateSector.Status.Name },
+           new State { Id = updateSector.StateId, Name = updateSector.State.Name },
            updateSector.OrderNumber,
            updateSector.ShortName,
            updateSector.FullName);

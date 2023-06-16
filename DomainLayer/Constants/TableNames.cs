@@ -4,8 +4,8 @@ public static class TableNames
     /// <summary>
     /// ENUMS
     /// </summary>
-    public const string Status = "enum_status";
-    public const string StatusTranslate = "enum_status_translate";
+    public const string State = "enum_state";
+    public const string StateTranslate = "enum_state_translate";
 
     public const string PerformerType = "enum_performer_type";
     public const string PerformerTypeTranslate = "enum_performer_type_translate";
@@ -38,4 +38,9 @@ public static class TableNames
     public const string FileModel = "doc_file_model";
     public const string InformationLetter = "doc_information_letter";
     public const string VisaHoldersForInfLet = "doc_visa_holders_for_inf_let";
+    /// <summary>
+    /// HL
+    /// </summary>
+    public const string Employee = "hl_employee";
+    public const string User = "hl_user";
 }

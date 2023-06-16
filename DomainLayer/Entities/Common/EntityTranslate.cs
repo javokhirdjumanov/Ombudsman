@@ -6,6 +6,7 @@ namespace DomainLayer.Entities.Common;
 public abstract class EntityTranslate
 {
     [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.None)]
     public int Id { get; set; }
     public int LanguageId { get; set; }
     [ForeignKey(nameof(LanguageId))]
