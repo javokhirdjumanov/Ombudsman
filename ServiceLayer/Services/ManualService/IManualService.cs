@@ -11,4 +11,5 @@ public interface IManualService
     IQueryable<InitiativeType> InitiativeTypesSelectList();
     IQueryable<DocumentStatus> DocumentStatusSelectList();
     IQueryable<DocumentImportance> DocumentImportanceSelectList();
+    IQueryable<UserRole> UserRoleSelectList();
 }

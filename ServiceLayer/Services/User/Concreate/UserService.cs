@@ -1,7 +1,6 @@
 ﻿using DataLayer.Context;
 using DataLayer.Repository;
 using DomainLayer.Entities.HL;
-using ServiceLayer.Extantions;
 using ServiceLayer.Validations;
 
 namespace ServiceLayer.Services;
@@ -49,8 +48,6 @@ public class UserService : IUserService
 
     public async ValueTask<UserDto> RemoveUserAsync(int userId)
     {
-        userId.IsDefault();
-
         var storageUser = await this.userRepository
             .SelectByIdAsync(userId);
 

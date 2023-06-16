@@ -29,6 +29,7 @@ public class ApplicationDbContext : DbContext
     public virtual DbSet<PerformerType> PerformerTypes { get; set; }
     public virtual DbSet<StateOrganization> StateOrganizations { get; set; }
     public virtual DbSet<State> Statuses { get; set; }
+    public virtual DbSet<UserRole> UserRoles { get; set; }
     /// <summary>
     /// ENUM TRANSLATE FILES
     /// </summary>
@@ -39,6 +40,7 @@ public class ApplicationDbContext : DbContext
     public virtual DbSet<NormativeDocumentTypeTranslate> NormativeDocumentTypeTranslates { get; set; }
     public virtual DbSet<PerformerTypeTranslate> PerformerTypeTranslates { get; set; }
     public virtual DbSet<StateOrganizationTranslate> StateOrganizationTranslates { get; set; }
+
     /// <summary>
     /// INFO FILES
     /// </summary>

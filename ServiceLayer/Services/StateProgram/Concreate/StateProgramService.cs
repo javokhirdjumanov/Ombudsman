@@ -3,10 +3,7 @@ using DataLayer.Repository;
 using DomainLayer.Entities.ENUM;
 using DomainLayer.Entities.INFO;
 using Microsoft.EntityFrameworkCore;
-using ServiceLayer.Extantions;
 using ServiceLayer.Validations;
-using System.Data.SqlTypes;
-using System.Diagnostics;
 
 namespace ServiceLayer.Services;
 public class StateProgramService : IStateProgramService
@@ -23,8 +20,6 @@ public class StateProgramService : IStateProgramService
 
     public async ValueTask<SPDto> CreateStateProgramAsync(SPDlDto spDlDto)
     {
-        spDlDto.status_id.IsDefault();
-
         var storageStatus = await this.unitOfWork.context.Statuses
             .FirstOrDefaultAsync(x => x.Id == spDlDto.status_id);
 
@@ -62,8 +57,6 @@ public class StateProgramService : IStateProgramService
     }
     public async ValueTask<SPDto> DeleteStateProgramAsync(int id)
     {
-        id.IsDefault();
-
         var storageStateProgram = await this.stateProgramRepository
             .SelectByIdAsync(id);
 

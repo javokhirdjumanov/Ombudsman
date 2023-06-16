@@ -20,7 +20,7 @@ public class UserDlDto
     public string Password { get; set; }
 
     [Required]
-    [Range (0, int.MaxValue)]
+    [Range (1, int.MaxValue)]
     public int roleId { get; set; }
 
     public int? organizationId { get; set; }

@@ -13,6 +13,13 @@ public class InformationLetter
     public int Id { get; set; }
 
     /// <summary>
+    /// QAYSI DOCUMENTNING AXBOROT XATI EKANLIGI
+    /// </summary>
+    public int DocumentId { get; set; }
+    [ForeignKey(nameof(DocumentId))]
+    public Document Document { get; set; }
+
+    /// <summary>
     /// Axborot xati raqami
     /// </summary>
     public int InformationLetterNumber { get; set; }
@@ -20,6 +27,7 @@ public class InformationLetter
     /// <summary>
     /// Axborot xati sanasi
     /// </summary>
+    [Column(TypeName = "timestamp without time zone")]
     public DateTime InformationLetterDate { get; set; }
 
     /// <summary>
@@ -44,7 +52,7 @@ public class InformationLetter
     /// </summary>
     public int EmployeeId { get; set; }
     [ForeignKey(nameof(EmployeeId))]
-    public User Empoloyee{  get; set; }
+    public Employee Empoloyee{  get; set; }
 
     /// <summary>
     /// Masul xodim

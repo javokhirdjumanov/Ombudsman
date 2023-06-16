@@ -23,9 +23,9 @@ public class User
 
     public int? OrganizationId { get; set; }
     [ForeignKey(nameof(OrganizationId))]
-    public Organization Organizations { get; set; }
+    public Organization? Organizations { get; set; }
 
-    public int LanguageId { get; set; } = 1;
+    public int LanguageId { get; set; } = 3;
     [ForeignKey(nameof(LanguageId))]
     public Language Languages { get; set; }
 

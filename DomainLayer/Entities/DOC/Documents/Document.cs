@@ -58,16 +58,19 @@ public class Document
     /// <summary>
     /// Hujjat yaratilgan Sana
     /// </summary>
+    [Column(TypeName = "timestamp without time zone")]
     public DateTime CreateAt { get; set; } = DateTime.Now;
 
     /// <summary>
     /// Hujjat jo'natilgan sana
     /// </summary>
+    [Column(TypeName = "timestamp without time zone")]
     public DateTime? SendDocumentData { get; set; }
 
     /// <summary>
     /// Taxminiy ijro muddati
     /// </summary>
+    [Column(TypeName = "timestamp without time zone")]
     public DateTime? EstimatedExecutionTime { get; set; }
 
     /// <summary>
@@ -123,14 +126,8 @@ public class Document
     /// <summary>
     /// Meyoriy hujjat sanasi
     /// </summary>
+    [Column(TypeName = "timestamp without time zone")]
     public DateTime? NormativeDocDate { get; set; }
-
-    /// <summary>
-    /// Axborot xati
-    /// </summary>
-    public int? InformationLetterId { get; set; }
-    [ForeignKey(nameof(InformationLetterId))]
-    public InformationLetter? InformationLetter { get; set; }
 
     /// <summary>
     /// File

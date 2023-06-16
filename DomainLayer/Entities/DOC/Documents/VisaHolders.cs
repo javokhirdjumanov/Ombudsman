@@ -58,10 +58,12 @@ public class VisaHolders
     /// <summary>
     /// Kiritilgan sana
     /// </summary>
+    [Column(TypeName = "timestamp without time zone")]
     public DateTime CreateAt { get; set; } = DateTime.Now;
 
     /// <summary>
     /// Viza quyilgan sana
     /// </summary>
+    [Column(TypeName = "timestamp without time zone")]
     public DateTime DateVisaAddition { get; set; }
 }

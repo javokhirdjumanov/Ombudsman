@@ -3,7 +3,6 @@ using DataLayer.Repository;
 using DomainLayer.Entities.ENUM;
 using DomainLayer.Entities.INFO;
 using Microsoft.EntityFrameworkCore;
-using ServiceLayer.Extantions;
 using ServiceLayer.Validations;
 
 namespace ServiceLayer.Services;
@@ -19,8 +18,6 @@ public class SectorService : ISectorService
 
     public async ValueTask<SectorDto> CreateSectorAsync(SectorDlDto sector)
     {
-        sector.status_id.IsDefault();
-
         var storageStatus = await this.unitOfWork.context.Statuses
             .FirstOrDefaultAsync(x => x.Id == sector.status_id);
 
@@ -65,8 +62,6 @@ public class SectorService : ISectorService
 
     public async ValueTask<SectorDto> DeleteSectorAsync(int id)
     {
-        id.IsDefault();
-
         var storageSector = await this.sectorRepository
             .SelectByIdAsync(id);
 

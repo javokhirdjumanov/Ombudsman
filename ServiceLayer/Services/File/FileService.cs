@@ -2,7 +2,6 @@
 using DomainLayer.Entities.DOC.Files;
 using DomainLayer.Exceptions;
 using Microsoft.AspNetCore.Http;
-using ServiceLayer.Extantions;
 using ServiceLayer.Validations;
 
 namespace ServiceLayer.Services;
@@ -16,8 +15,6 @@ public class FileService : IFileService
 
     public async Task<(FileStream, FileModel)> DownloadFile(int fileId)
     {
-        fileId.IsDefault();
-
         var storageFile = await this.fileRepository
             .GetFileByIdAsync(fileId);
 

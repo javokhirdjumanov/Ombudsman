@@ -65,4 +65,11 @@ public class ManualController : ControllerBase
 
         return Ok(documentImportance);
     }
+    [HttpGet]
+    public IActionResult UserRolesSelectList()
+    {
+        var userRoles = this.manualService.UserRoleSelectList();
+
+        return Ok(userRoles);
+    }
 }
