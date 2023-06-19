@@ -10,25 +10,28 @@ using ServiceLayer.Services.Documents;
 using ServiceLayer.Validations;
 
 namespace ServiceLayer.Services;
-public class DocumentService : IDocumentService
+public partial class DocumentService : IDocumentService
 {
     private readonly IDocumentRepository documentRepository;
     private readonly IInformationLetterRepository informationLetterRepository;
     private readonly IVisaHolderRepository visaHolderRepository;
     private readonly IUnitOfWork unitOfWork;
     private readonly IMapper mapper;
+    private readonly IAuthServices authServices;
     public DocumentService(
         IDocumentRepository documentRepository,
         IUnitOfWork unitOfWork,
         IMapper mapper,
         IInformationLetterRepository documentLetterRepository,
-        IVisaHolderRepository visaHolderRepository)
+        IVisaHolderRepository visaHolderRepository,
+        IAuthServices authServices)
     {
         this.documentRepository = documentRepository;
         this.unitOfWork = unitOfWork;
         this.mapper = mapper;
         this.informationLetterRepository = documentLetterRepository;
         this.visaHolderRepository = visaHolderRepository;
+        this.authServices = authServices;
     }
 
     public async ValueTask<int> CreateAsync(DocCreateDlDto cDto)
@@ -37,21 +40,9 @@ public class DocumentService : IDocumentService
         using var transaction = await this.unitOfWork.TransactionAsync();
         try
         {
-            /// If the document is not designed and the project date and number are entered !!error
-            if (cDto.documentStatusId != StatusIds.DOCUMENT_STATUS
-                && cDto.normativeDocDate is not null)
-            {
-                throw new Exception(
-                    "Your document is not designed :(");
-            }
-            /// If the document is drafted and does not include the draft date and number !!error
-            if (cDto.documentStatusId == StatusIds.DOCUMENT_STATUS
-                && cDto.normativeDocDate is null)
-            {
-                throw new Exception("Your document is designed\n" +
-                     "You are obliged to give the normative document " +
-                     "number and the date of the document");
-            }
+            ValidateIfUserNotHavePermission(cDto);
+
+            ValidateIfDocumentDesignedOrNot(cDto);
 
             var doc = this.mapper.Map<Document>(cDto);
             addedDocument = await this.documentRepository.InsertAsync(doc);
@@ -67,14 +58,7 @@ public class DocumentService : IDocumentService
                     .InsertAsync(newVisa);
             }
 
-            /// If the document type is `Memorandum' and you want to create an information letter !!error
-            if (cDto.normativeDocumentId == StatusIds.MEMORANDUM
-                && cDto.createLetterDlDto is not null)
-            {
-                throw new Exception(
-                    "Your document type is a `Memorandum` and " +
-                    "it does not contain an Information Letter :(");
-            }
+            ValidateIfDocumentMemorandum(cDto);
 
             var newInformationLetter = this.mapper
                 .Map<InformationLetter>(cDto.createLetterDlDto);

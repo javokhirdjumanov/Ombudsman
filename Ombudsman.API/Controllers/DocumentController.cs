@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ServiceLayer.Services;
 using ServiceLayer.Services.Documents;
 
@@ -14,6 +15,7 @@ public class DocumentController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize]
     public async ValueTask<ActionResult<int>> CreateAsync(DocCreateDlDto docCreateDlDto)
     {
         var documentId = await this.documentService

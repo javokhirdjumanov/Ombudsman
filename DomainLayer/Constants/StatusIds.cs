@@ -7,6 +7,6 @@ public static class StatusIds
     public const int ADMIN = 2;
     public const int DELETE = 3;
 
-    public const int DOCUMENT_STATUS = 1;
+    public const int DESIGNED = 1;
     public const int MEMORANDUM = 6;
 }
