@@ -7,12 +7,11 @@ using DomainLayer.Entities.INFO;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataLayer.Context;
-public class ApplicationDbContext : DbContext
+public partial class ApplicationDbContext : DbContext
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     { }
-
     /// <summary>
     /// DOCUMENT FILES
     /// </summary>
@@ -25,6 +24,8 @@ public class ApplicationDbContext : DbContext
     /// </summary>
     public virtual DbSet<DocumentStatus> DocumentStatuses { get; set; }
     public virtual DbSet<InitiativeType> InitiativeTypes { get; set; }
+    public virtual DbSet<NormativeDocumentType> NormativeDocuments { get; set; } = null!;
+
     public virtual DbSet<NormativeDocumentType> NormativeDocumentTypes { get; set; }
     public virtual DbSet<PerformerType> PerformerTypes { get; set; }
     public virtual DbSet<StateOrganization> StateOrganizations { get; set; }
@@ -46,7 +47,7 @@ public class ApplicationDbContext : DbContext
     /// </summary>
     public virtual DbSet<DocumentImportance> DocumentImportances { get; set; }
     public virtual DbSet<Organization> Organizations { get; set; }
-    public virtual DbSet<Sectors> Sectors { get; set; }
+    public virtual DbSet<Sector> Sectors { get; set; }
     public virtual DbSet<StateProgram> StatePrograms { get; set; }
 
     /// <summary>

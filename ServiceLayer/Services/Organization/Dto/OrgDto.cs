@@ -1,15 +1,12 @@
-﻿using DomainLayer.Entities.ENUM;
-using DomainLayer.Entities.INFO;
-
-namespace ServiceLayer.Services;
+﻿namespace ServiceLayer.Services;
 public class OrgDto
 {
     public int id { get; set; }
     public int ordernumber { get; set; }
-    public StateOrganization stateorganization{ get; set; }
-    public bool is_grouper { get; set; }
-    public Organization? supreororganization { get; set; }
-    public string? short_name { get; set; }
-    public string? full_name { get; set; }
-    public State state { get; set; }
+    public StateOrganizationDto? stateOrganizationIdsNavigation { get; set; }
+    public bool isGrouper { get; set; }
+    public OrgDto? superiorOrganization { get; set; }
+    public string? shortName { get; set; }
+    public string? fullName { get; set; }
+    public StateDto? state { get; set; }
 }

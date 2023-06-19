@@ -4,18 +4,18 @@ namespace ServiceLayer.Services;
 public class OrgDlDto
 {
     [Required, Range(1, int.MaxValue)]
-    public int order_number { get; set; }
+    public int orderNumber { get; set; }
 
     [Required, Range(1, int.MaxValue)]
-    public int state_organization_id { get; set; }
+    public int stateOrganizationIds { get; set; }
 
     [Required]
-    public bool is_grouper { get; set; }
+    public bool isGrouper { get; set; }
 
-    public int organization_id { get; set; }
-    public string? short_name { get; set; }
-    public string? full_name { get; set; }
+    public int? organizationId { get; set; }
+    public string? shortName { get; set; }
+    public string? fullName { get; set; }
 
     [Required, Range(1, int.MaxValue)]
-    public int status_id { get; set; }
+    public int stateId { get; set; }
 }

@@ -3,7 +3,7 @@
 namespace ServiceLayer.Services;
 public record SPDto(
     int id,
-    int order_number,
-    string? short_name,
-    string? full_name,
-    State Status);
+    int orderNumber,
+    string? shortName,
+    string? fullName,
+    StateDto? state);

@@ -1,9 +1,12 @@
 ﻿using DataLayer.Auth;
 using DataLayer.Auth.JwtTokens;
 using DataLayer.Repository;
+using DomainLayer.Entities.HL;
 using DomainLayer.Exceptions;
+using EFCore.NamingConventions.Internal;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using ServiceLayer.Validations;
 using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -27,23 +30,24 @@ public class AuthServices : IAuthServices
         this.passwordHasher = passwordHasher;
         this.options = options.Value;
     }
+    public User User { get; set; }
 
     public async ValueTask<TokenDto> LoginAsync(AuthDlDto authentificationDto)
     {
-        var user = await userRepository
+        var storageUser = await userRepository
             .SelectByIdWithDetailsAsync(
                 expression: user => user.Email == authentificationDto.email,
-                includes: Array.Empty<string>());
+                includes: new string[] {nameof(User.Role), nameof(User.Organization)});
 
-        if (user is null)
-        {
-            throw new NotFoundException("User with given credentials not found");
-        }
+        User = storageUser;
+
+        ValidationStorageObj
+            .GenericValidation<User>(storageUser, User.Id);
 
         if (!passwordHasher.Verify(
-            hash: user.PasswordHash,
+            hash: storageUser.PasswordHash,
             password: authentificationDto.password,
-            salt: user.Salt))
+            salt: storageUser.Salt))
         {
             throw new ValidationExceptions("Username or password is not valid");
         }
@@ -51,17 +55,17 @@ public class AuthServices : IAuthServices
         string refreshToken = jwtTokenHandler
             .GenerateRefreshToken();
 
-        user.UpdateRefreshToken(refreshToken);
+        storageUser.UpdateRefreshToken(refreshToken);
 
-        var updatedUser = await userRepository
-            .UpdateAsync(user);
+        var updatedUser = await this.userRepository
+            .UpdateAsync(storageUser);
 
         var accessToken = jwtTokenHandler
             .GenerateAccessToken(updatedUser);
 
         return new TokenDto(
             accessToken: new JwtSecurityTokenHandler().WriteToken(accessToken),
-            refreshToken: user.RefreshToken,
+            refreshToken: storageUser.RefreshToken,
             expiredDate: accessToken.ValidTo);
     }
     public async ValueTask<TokenDto> RefreshTokenAsync(RefreshTokenDlDto refreshTokenDto)

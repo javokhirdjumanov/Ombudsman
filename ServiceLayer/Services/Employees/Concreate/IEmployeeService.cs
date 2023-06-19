@@ -1,6 +1,4 @@
-﻿using ServiceLayer.Servicesl;
-
-namespace ServiceLayer.Services;
+﻿namespace ServiceLayer.Services;
 public interface IEmployeeService
 {
     ValueTask<EmpDto> CreateAsync(EmpCreateDlDto empDlDto);

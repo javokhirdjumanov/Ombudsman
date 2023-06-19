@@ -19,7 +19,6 @@ public class SectorController : ControllerBase
 
         return Created("", newSector);
     }
-
     [HttpGet]
     public IActionResult SelectList()
     {
@@ -27,7 +26,22 @@ public class SectorController : ControllerBase
 
         return Ok(sectors);
     }
+    [HttpGet("{id:int}")]
+    public async ValueTask<ActionResult<SectorDto>> SelectByIdAsync(int id)
+    {
+        var sectors = await this.sertorService
+            .SelectSectorByIdAsync(id);
 
+        return Ok(sectors);
+    }
+    [HttpPut]
+    public IActionResult UpdateAsync(SectorUpdateDlDto sectorUpdateDlDto)
+    {
+        var sectors = this.sertorService
+            .UpdateSectorAsync(sectorUpdateDlDto);
+
+        return Ok(sectors);
+    }
     [HttpDelete("{id:int}")]
     public async ValueTask<ActionResult<SectorDto>> DeleteAsync(int id)
     {

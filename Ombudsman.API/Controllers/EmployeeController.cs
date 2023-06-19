@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ServiceLayer.Services;
-using ServiceLayer.Servicesl;
 
 namespace Ombudsman.API.Controllers;
 [Route("api/[controller]/[action]")]

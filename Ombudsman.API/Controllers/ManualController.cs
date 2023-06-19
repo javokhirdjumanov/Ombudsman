@@ -36,10 +36,10 @@ public class ManualController : ControllerBase
         return Ok(stateOrg);
     }
     [HttpGet]
-    public IActionResult StatusSelectList()
+    public IActionResult StateSelectList()
     {
         var statuses = this.manualService
-            .StatusSelectList();
+            .StateSelectList();
 
         return Ok(statuses);
     }
@@ -71,5 +71,13 @@ public class ManualController : ControllerBase
         var userRoles = this.manualService.UserRoleSelectList();
 
         return Ok(userRoles);
+    }
+    [HttpGet]
+    public IActionResult LanguagesSelectList()
+    {
+        var languages = this.manualService
+            .LanguageSelectList();
+
+        return Ok(languages);
     }
 }

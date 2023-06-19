@@ -1,29 +1,30 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using ServiceLayer.Services;
-using AutoMapper;
 
 namespace ServiceLayer;
 public static class Dependencies
 {
     public static IServiceCollection AddServiceLayer(this IServiceCollection services)
     {
-        services.AddScoped<IFileService, FileService>();
-
-        services.AddScoped<IAuthServices, AuthServices>();
-
         services.AddScoped<IUserService, UserService>();
-        services.AddSingleton<IUserFactory, UserFactory>();
 
-        services.AddScoped<IStateProgramService, StateProgramService>();
+        services.AddScoped<IDocumentService, DocumentService>();
+
+        services.AddScoped<IVisaHolderService, VisaHolderService>();
+
+        services.AddScoped<IEmployeeService, EmployeeService>();
+
+        services.AddScoped<IOrganizationService, OrganizationService>();
 
         services.AddScoped<ISectorService, SectorService>();
 
+        services.AddScoped<IStateProgramService, StateProgramService>();
+
         services.AddScoped<IManualService, ManualService>();
 
-        services.AddScoped<IOrganizationService, OrganizationService>();
-        services.AddScoped<IFactoryOrganization, FactoryOrganization>();
+        services.AddScoped<IFileService, FileService>();
 
-        services.AddScoped<IEmployeeService, EmployeeService>();
+        services.AddScoped<IAuthServices, AuthServices>();
 
         services.AddAutoMapper(typeof(MappingProfile));
 

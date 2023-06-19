@@ -8,5 +8,5 @@ public class EmpDto
     public string PhoneNumber { get; set; }
     public double Salary { get; set; }
     public string Email { get; set; }
-    public Organization Organization { get; set; }
+    public OrgDto? Organization { get; set; }
 }

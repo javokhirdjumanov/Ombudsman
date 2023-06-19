@@ -1,16 +1,21 @@
 ﻿using DataLayer.Repository;
 using DomainLayer.Entities.DOC.Files;
 using DomainLayer.Exceptions;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Hosting.Internal;
 using ServiceLayer.Validations;
 
 namespace ServiceLayer.Services;
 public class FileService : IFileService
 {
     private readonly IFileRepository fileRepository;
-    public FileService(IFileRepository fileRepository)
+    private readonly IWebHostEnvironment webHostEnvironment;
+    public FileService(IFileRepository fileRepository, IWebHostEnvironment webHostEnvironment)
     {
         this.fileRepository = fileRepository;
+        this.webHostEnvironment = webHostEnvironment;
     }
 
     public async Task<(FileStream, FileModel)> DownloadFile(int fileId)
@@ -21,11 +26,8 @@ public class FileService : IFileService
         ValidationStorageObj
             .GenericValidation<FileModel>(storageFile, fileId);
 
-        var filePath = Path.Combine(
-            Directory.GetCurrentDirectory(),
-            "Informations",
-            "UploadsFiles",
-            fileId.ToString() + storageFile.Type);
+        var webRootPath = webHostEnvironment.WebRootPath;
+        var filePath = Path.Combine(webRootPath, "UploadsFiles", fileId.ToString() + storageFile.Type);
 
         if (!System.IO.File.Exists(filePath))
             throw new NotFoundException($"Couldn't file the given id: {filePath}");
@@ -34,7 +36,6 @@ public class FileService : IFileService
 
         return (fileStream, storageFile);
     }
-
     public async Task<FileDto> UploadFile(IFormFile file)
     {
         var exension = Path.GetExtension(file.FileName);
@@ -45,10 +46,8 @@ public class FileService : IFileService
             FileName = file.FileName.Replace(exension, string.Empty),
         });
 
-        var filePath = Path.Combine(
-            Directory.GetCurrentDirectory(),
-            "Informations",
-            "UploadsFiles");
+        var webRootPath = webHostEnvironment.WebRootPath;
+        var filePath = Path.Combine(Directory.GetCurrentDirectory(), webRootPath, "UploadsFiles");
 
         if (!Directory.Exists(filePath))
         {

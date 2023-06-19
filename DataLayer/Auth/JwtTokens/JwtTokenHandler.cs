@@ -32,7 +32,7 @@ public class JwtTokenHandler : IJwtTokenHandler
         var token = new JwtSecurityToken(
             issuer: this.jwtOptions.Issuer,
             audience: this.jwtOptions.Audience,
-            expires: DateTime.UtcNow.AddMinutes(this.jwtOptions.ExpirationInMinutes),
+            expires: DateTime.Now.AddMinutes(this.jwtOptions.ExpirationInMinutes),
             claims: claims,
             signingCredentials: new SigningCredentials(
                 key: authSingingKey,

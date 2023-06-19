@@ -1,4 +1,5 @@
-﻿using DataLayer;
+﻿using AutoMapper;
+using DataLayer;
 using DomainLayer.Entities.ENUM;
 using DomainLayer.Entities.INFO;
 using Microsoft.EntityFrameworkCore;
@@ -7,47 +8,74 @@ namespace ServiceLayer.Services;
 public class ManualService : IManualService
 {
     private readonly IUnitOfWork unitOfWork;
-    public ManualService(IUnitOfWork unitOfWork)
+    private readonly IMapper mapper;
+    public ManualService(IUnitOfWork unitOfWork, IMapper mapper)
     {
         this.unitOfWork = unitOfWork;
+        this.mapper = mapper;
     }
-    public IQueryable<DocumentStatus> DocumentStatusSelectList()
+    public IQueryable<DocStatusDto> DocumentStatusSelectList()
     {
-        return this.unitOfWork.context.DocumentStatuses.Include(d => d.State);
+        var docStatuses = this.unitOfWork.context.DocumentStatuses
+            .Include(d => d.Status);
+
+        return docStatuses
+            .Select(x => this.mapper
+            .Map<DocStatusDto>(x));
     }
-    public IQueryable<InitiativeType> InitiativeTypesSelectList()
+    public IQueryable<InitiativeTypeDto> InitiativeTypesSelectList()
     {
-        return this.unitOfWork.context.InitiativeTypes;
+        var inits = this.unitOfWork.context.InitiativeTypes;
+
+        return inits
+            .Select(x => this.mapper
+            .Map<InitiativeTypeDto>(x));
     }
-    public IQueryable<NormativeDocumentType> NormativeDocumentTypesSelectList()
+    public IQueryable<NormativeDocTypeDto> NormativeDocumentTypesSelectList()
     {
-        return
-            this.unitOfWork.context.NormativeDocumentTypes
+        var normativeDocTypes = this.unitOfWork.context.NormativeDocumentTypes
             .Include(x => x.State);
+
+        return normativeDocTypes
+            .Select(x => this.mapper
+            .Map<NormativeDocTypeDto>(x));
     }
-    public IQueryable<PerformerType> PerformerTypesSelectList()
+    public IQueryable<PerformerTypeDto> PerformerTypesSelectList()
     {
-        return
-            this.unitOfWork.context.PerformerTypes
+        var performerTypes = this.unitOfWork.context.PerformerTypes
             .Include(x => x.State);
+
+        return performerTypes.Select(x => this.mapper.Map<PerformerTypeDto>(x));
     }
-    public IQueryable<State> StatusSelectList()
+    public IQueryable<StateDto> StateSelectList()
     {
-        return
-            this.unitOfWork.context.Statuses;
+        return this.unitOfWork.context.Statuses
+            .Select(x => this.mapper.Map<StateDto>(x));
     }
-    public IQueryable<StateOrganization> StateOrganizationSelectList()
+    public IQueryable<StateOrganizationDto> StateOrganizationSelectList()
     {
         return
            this.unitOfWork.context.StateOrganizations
-           .Include(x => x.State);
+           .Include(x => x.State)
+           .Select(x => this.mapper.Map<StateOrganizationDto>(x));
     }
-    public IQueryable<DocumentImportance> DocumentImportanceSelectList()
+    public IQueryable<DocumentImportanceDto> DocumentImportanceSelectList()
     {
-        return this.unitOfWork.context.DocumentImportances.Include(d => d.State);
+        return
+            this.unitOfWork.context.DocumentImportances
+            .Include(d => d.State)
+            .Select(x => this.mapper.Map<DocumentImportanceDto>(x));
     }
-    public IQueryable<UserRole> UserRoleSelectList()
+    public IQueryable<UserRoleDto> UserRoleSelectList()
     {
-        return this.unitOfWork.context.UserRoles;
+        return
+            this.unitOfWork.context.UserRoles
+            .Select(x => this.mapper.Map<UserRoleDto>(x));
+    }
+
+    public IQueryable<LanguageDto> LanguageSelectList()
+    {
+        return this.unitOfWork.context.Languages
+            .Select(x => this.mapper.Map<LanguageDto>(x));
     }
 }

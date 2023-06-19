@@ -1,7 +1,7 @@
 ﻿using ServiceLayer.Services;
 using System.ComponentModel.DataAnnotations;
 
-namespace ServiceLayer.Servicesl;
+namespace ServiceLayer.Services;
 public class EmpUpdateDlDto : EmpBaseDlDto
 {
     [Required, Range(1, int.MaxValue)]

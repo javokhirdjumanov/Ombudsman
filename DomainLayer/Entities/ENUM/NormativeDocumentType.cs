@@ -1,5 +1,7 @@
 ﻿using DomainLayer.Constants;
-using DomainLayer.Entities.Common;
+using DomainLayer.Entities.DOC;
+using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DomainLayer.Entities.ENUM;
@@ -7,11 +9,34 @@ namespace DomainLayer.Entities.ENUM;
 /// MEYORIY HUJJAT TURI
 /// </summary>
 [Table(TableNames.NormativeDocument)]
-public class NormativeDocumentType : BaseEnumTable
+[Index("StateId", Name = "ix_enum_normative_document_state_id")]
+public class NormativeDocumentType
 {
-    public string ShortCharacter { get; set; }
+    public NormativeDocumentType()
+    {
+        Documents = new HashSet<Document>();
+        NormativeDocumentTranslates = new HashSet<NormativeDocumentTypeTranslate>();
+    }
 
+    [Key]
+    [Column("id")]
+    public int Id { get; set; }
+    [Column("short_character")]
+    public string ShortCharacter { get; set; } = null!;
+    [Column("state_id")]
     public int StateId { get; set; }
-    [ForeignKey(nameof(StateId))]
-    public State State { get; set; }
+    [Column("order_number")]
+    public int OrderNumber { get; set; }
+    [Column("short_name")]
+    public string? ShortName { get; set; }
+    [Column("full_name")]
+    public string? FullName { get; set; }
+
+    [ForeignKey("StateId")]
+    [InverseProperty("NormativeDocumentsTypes")]
+    public virtual State State { get; set; } = null!;
+    [InverseProperty("NormativeDocument")]
+    public virtual ICollection<Document> Documents { get; set; }
+    [InverseProperty("Owner")]
+    public virtual ICollection<NormativeDocumentTypeTranslate> NormativeDocumentTranslates { get; set; }
 }

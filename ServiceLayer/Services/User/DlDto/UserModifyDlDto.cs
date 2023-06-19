@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 namespace ServiceLayer.Services;
-public class UserModifyDlDto : UserDlDto
+public class UserModifyDlDto : UserBaseDlDto
 {
     [Required]
     [Range(1, int.MaxValue)]

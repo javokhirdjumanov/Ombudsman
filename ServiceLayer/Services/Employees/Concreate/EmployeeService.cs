@@ -4,7 +4,6 @@ using DataLayer.Repository;
 using DomainLayer.Entities;
 using DomainLayer.Entities.INFO;
 using Microsoft.EntityFrameworkCore;
-using ServiceLayer.Servicesl;
 using ServiceLayer.Validations;
 
 namespace ServiceLayer.Services;
@@ -41,7 +40,7 @@ public class EmployeeService : IEmployeeService
         {
             nameof(Employee.Organization),
             $"{nameof(Employee.Organization)}.{nameof(Organization.State)}",
-            $"{nameof(Employee.Organization)}.{nameof(Organization.StateOrganization)}"
+            $"{nameof(Employee.Organization)}.{nameof(Organization.StateOrganizationIdsNavigation)}"
         });
 
         return this.mapper.Map<EmpDto>(storageEmp);
@@ -82,6 +81,6 @@ public class EmployeeService : IEmployeeService
         var removeEmp = this.employeeRepository.DeleteAsync(badEmployee);
 
         return this.mapper
-            .Map<EmpDto>(removeEmp);
+            .Map<EmpDto>(badEmployee);
     }
 }

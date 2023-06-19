@@ -1,4 +1,5 @@
-﻿using DataLayer;
+﻿using AutoMapper;
+using DataLayer;
 using DataLayer.Repository;
 using DomainLayer.Entities.ENUM;
 using DomainLayer.Entities.INFO;
@@ -10,54 +11,37 @@ public class SectorService : ISectorService
 {
     private readonly ISectorRepository sectorRepository;
     private readonly IUnitOfWork unitOfWork;
-    public SectorService(ISectorRepository sectorRepository, IUnitOfWork unitOfWork)
+    private readonly IMapper mapper;
+    public SectorService(
+        ISectorRepository sectorRepository,
+        IUnitOfWork unitOfWork,
+        IMapper mapper)
     {
         this.sectorRepository = sectorRepository;
         this.unitOfWork = unitOfWork;
+        this.mapper = mapper;
     }
 
     public async ValueTask<SectorDto> CreateSectorAsync(SectorDlDto sector)
     {
-        var storageStatus = await this.unitOfWork.context.Statuses
-            .FirstOrDefaultAsync(x => x.Id == sector.status_id);
-
-        ValidationStorageObj
-            .GenericValidation<State>(storageStatus, sector.status_id);
-
-        var newSector = new Sectors
-        {
-            SectorNumber = sector.sector_number,
-            State = storageStatus,
-            OrderNumber = sector.order_number,
-            ShortName = sector.short_name,
-            FullName = sector.full_name
-        };
+        var newSector = this.mapper
+            .Map<Sector>(sector);
 
         var addedSector = await this.sectorRepository
             .InsertAsync(newSector);
 
-        return new SectorDto(
-                addedSector.Id,
-                addedSector.SectorNumber,
-                new State{Id = addedSector.StateId,
-                Name = addedSector.State.Name},
-                addedSector.OrderNumber,
-                addedSector.ShortName,
-                addedSector.FullName);
+        return this.mapper
+            .Map<SectorDto>(addedSector);
     }
 
     public IQueryable<SectorDto> SectorsSelectListAsync()
     {
         var allSectors = this.sectorRepository
             .SelectAll()
-            .Include(se => se.State).Where(se => se.StateId != 3);
+            .Include(se => se.State);
 
-        return allSectors.Select(x => new SectorDto(x.Id,
-                x.SectorNumber,
-                new State { Id = x.StateId, Name = x.State.Name},
-                x.OrderNumber,
-                x.ShortName,
-                x.FullName));
+        return allSectors
+            .Select(c => this.mapper.Map<SectorDto>(c));
     }
 
     public async ValueTask<SectorDto> DeleteSectorAsync(int id)
@@ -66,22 +50,41 @@ public class SectorService : ISectorService
             .SelectByIdAsync(id);
 
         ValidationStorageObj
-           .GenericValidation<Sectors>(storageSector, id);
+           .GenericValidation<Sector>(storageSector, id);
 
-        var deleteStatusObj = this.unitOfWork.context.Statuses
-            .FirstOrDefault(x => x.Id == 3);
+        var removedSector = await this.sectorRepository
+            .DeleteAsync(storageSector);
 
-        storageSector.State = deleteStatusObj;
+        return this.mapper
+            .Map<SectorDto>(storageSector);
+    }
 
-        var updateSector = await this.sectorRepository
-            .UpdateAsync(storageSector);
+    public async ValueTask<SectorDto> SelectSectorByIdAsync(int id)
+    {
+        var storageSector = await this.sectorRepository
+            .SelectByIdWithDetailsAsync(
+            expression: s => s.Id == id,
+            includes: new string[]
+            {
+                nameof(Sector.State)
+            });
 
-        return new SectorDto(
-           updateSector.Id,
-           updateSector.OrderNumber,
-           new State { Id = updateSector.StateId, Name = updateSector.State.Name },
-           updateSector.OrderNumber,
-           updateSector.ShortName,
-           updateSector.FullName);
+        return this.mapper
+            .Map<SectorDto>(storageSector);
+    }
+
+    public async ValueTask<SectorDto> UpdateSectorAsync(SectorUpdateDlDto sectorUpdateDlDto)
+    {
+        var sector = await this.sectorRepository
+            .SelectByIdAsync(sectorUpdateDlDto.Id);
+
+        ValidationStorageObj
+            .GenericValidation<Sector>(sector, sectorUpdateDlDto.Id);
+
+        var modifySector = this.mapper
+            .Map(sectorUpdateDlDto, sector);
+
+        return this.mapper
+            .Map<SectorDto>(await this.sectorRepository.UpdateAsync(modifySector));
     }
 }

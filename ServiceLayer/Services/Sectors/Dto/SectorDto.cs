@@ -3,8 +3,8 @@
 namespace ServiceLayer.Services;
 public record SectorDto(
     int id,
-    int sector_number,
-    State status,
-    int order_number,
-    string? short_name,
-    string? full_name);
+    int sectorNumber,
+    StateDto state,
+    int orderNumber,
+    string? shortName,
+    string? fullName);

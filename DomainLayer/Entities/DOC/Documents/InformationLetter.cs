@@ -1,5 +1,4 @@
 ﻿using DomainLayer.Constants;
-using DomainLayer.Entities.HL;
 using DomainLayer.Entities.INFO;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -8,61 +7,42 @@ namespace DomainLayer.Entities.DOC;
 [Table(TableNames.InformationLetter)]
 public class InformationLetter
 {
+    public InformationLetter()
+    {
+        VisaHolders = new HashSet<VisaHolders>();
+    }
+
     [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    [Column("id")]
     public int Id { get; set; }
-
-    /// <summary>
-    /// QAYSI DOCUMENTNING AXBOROT XATI EKANLIGI
-    /// </summary>
-    public int DocumentId { get; set; }
-    [ForeignKey(nameof(DocumentId))]
-    public Document Document { get; set; }
-
-    /// <summary>
-    /// Axborot xati raqami
-    /// </summary>
+    [Column("information_letter_number")]
     public int InformationLetterNumber { get; set; }
-
-    /// <summary>
-    /// Axborot xati sanasi
-    /// </summary>
-    [Column(TypeName = "timestamp without time zone")]
-    public DateTime InformationLetterDate { get; set; }
-
-    /// <summary>
-    /// Viza quyuvchilar
-    /// </summary>
-    public string VisaHolder { get; set; }
-
-    /// <summary>
-    /// Axborot xati matni
-    /// </summary>
-    public string InformationLetterText { get; set; }
-
-    /// <summary>
-    /// Asosiy ijrochi
-    /// </summary>
+    [Column("information_letter_date", TypeName = "timestamp without time zone")]
+    public DateTime InformationLetterDate { get; set; } = DateTime.Now;
+    [Column("visa_holder")]
+    public string VisaHolder { get; set; } = null!;
+    [Column("information_letter_text")]
+    public string InformationLetterText { get; set; } = null!;
+    [Column("state_program_id")]
     public int StateProgramId { get; set; }
-    [ForeignKey(nameof(StateProgramId))]
-    public StateProgram StateProgram { get; set; }
-
-    /// <summary>
-    /// Ham ijrochilar
-    /// </summary>
+    [Column("employee_id")]
     public int EmployeeId { get; set; }
-    [ForeignKey(nameof(EmployeeId))]
-    public Employee Empoloyee{  get; set; }
+    [Column("responsible_employee")]
+    public string ResponsibleEmployee { get; set; } = null!;
+    [Column("phone_number")]
+    public string PhoneNumber { get; set; } = null!;
+    [Column("document_id")]
+    public int DocumentId { get; set; }
 
-    /// <summary>
-    /// Masul xodim
-    /// </summary>
-    public string ResponsibleEmployee { get; set; }
-
-    /// <summary>
-    /// Telefon raqam
-    /// </summary>
-    public string PhoneNumber { get; set; }
-
-    public ICollection<VisaHolders> VisaHolders { get; set; }
+    [ForeignKey("DocumentId")]
+    [InverseProperty("InformationLetters")]
+    public virtual Document Document { get; set; } = null!;
+    [ForeignKey("EmployeeId")]
+    [InverseProperty("InformationLetters")]
+    public virtual Employee Employee { get; set; } = null!;
+    [ForeignKey("StateProgramId")]
+    [InverseProperty("InformationLetters")]
+    public virtual StateProgram StateProgram { get; set; } = null!;
+    [InverseProperty("InformationLetter")]
+    public virtual ICollection<VisaHolders>? VisaHolders { get; set; }
 }

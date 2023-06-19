@@ -12,11 +12,8 @@ namespace Ombudsman.API
 
             builder.Services
                 .AddDataLayer(builder.Configuration)
-                .AddServiceLayer();
-
-            builder.Services.AddControllers();
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+                .AddServiceLayer()
+                .AddApis(builder.Configuration);
 
             var app = builder.Build();
 
@@ -30,7 +27,8 @@ namespace Ombudsman.API
 
             app.UseAuthentication();
 
-            //app.UseAuthorization();
+            app.UseAuthorization();
+
             app.UseMiddleware<ExceptionHandling>();
 
             app.MapControllers();

@@ -6,9 +6,19 @@ namespace DomainLayer.Entities.DOC.Files;
 [Table(TableNames.FileModel)]
 public class FileModel
 {
+    public FileModel()
+    {
+        Documents = new HashSet<Document>();
+    }
+
     [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    [Column("id")]
     public int Id { get; set; }
-    public string Type { get; set; }
-    public string FileName { get; set; }
+    [Column("type")]
+    public string Type { get; set; } = null!;
+    [Column("file_name")]
+    public string FileName { get; set; } = null!;
+
+    [InverseProperty("File")]
+    public virtual ICollection<Document> Documents { get; set; }
 }

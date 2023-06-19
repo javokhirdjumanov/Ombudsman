@@ -1,4 +1,5 @@
-﻿using DataLayer;
+﻿using AutoMapper;
+using DataLayer;
 using DataLayer.Repository;
 using DomainLayer.Entities.ENUM;
 using DomainLayer.Entities.INFO;
@@ -10,50 +11,36 @@ public class StateProgramService : IStateProgramService
 {
     private readonly IStateProgramRepository stateProgramRepository;
     private readonly IUnitOfWork unitOfWork;
+    private readonly IMapper mapper;
     public StateProgramService(
         IStateProgramRepository stateProgramRepository,
-        IUnitOfWork unitOfWork)
+        IUnitOfWork unitOfWork,
+        IMapper mapper)
     {
         this.stateProgramRepository = stateProgramRepository;
         this.unitOfWork = unitOfWork;
+        this.mapper = mapper;
     }
 
     public async ValueTask<SPDto> CreateStateProgramAsync(SPDlDto spDlDto)
     {
-        var storageStatus = await this.unitOfWork.context.Statuses
-            .FirstOrDefaultAsync(x => x.Id == spDlDto.status_id);
-
-        ValidationStorageObj
-            .GenericValidation<State>(storageStatus, spDlDto.status_id);
-
-        var newStateProgram = new StateProgram
-        {
-            OrderNumber = spDlDto.order_number,
-            ShortName = spDlDto.short_name,
-            FullName = spDlDto.full_name,
-            State = storageStatus
-        };
+        var newStateProgram = this.mapper
+            .Map<StateProgram>(spDlDto);
 
         var addedStatusProgram = await this.stateProgramRepository
             .InsertAsync(newStateProgram);
 
-        return new SPDto(
-            addedStatusProgram.Id,
-            addedStatusProgram.OrderNumber,
-            addedStatusProgram.ShortName,
-            addedStatusProgram.FullName,
-            new State { Id = spDlDto.status_id, Name = addedStatusProgram.State.Name });
+        return this.mapper
+            .Map<SPDto>(addedStatusProgram);
     }
     public IQueryable<SPDto> StateProgramSelectListAsync()
     {
         var statePrograms = this.stateProgramRepository
             .SelectAll()
-            .Include(sp => sp.State)
-            .Where(sp => sp.StateId != 3);
+            .Include(sp => sp.State);
 
         return statePrograms
-            .Select(sp =>
-            new SPDto(sp.Id, sp.OrderNumber, sp.ShortName, sp.FullName, new State { Id = sp.State.Id, Name = sp.State.Name }));
+            .Select(x => this.mapper.Map<SPDto>(x));
     }
     public async ValueTask<SPDto> DeleteStateProgramAsync(int id)
     {
@@ -63,18 +50,10 @@ public class StateProgramService : IStateProgramService
         ValidationStorageObj
            .GenericValidation<StateProgram>(storageStateProgram, id);
 
-        var deleteStatusObj = this.unitOfWork.context.Statuses.FirstOrDefault(x => x.Id == 3);
+        var removeSP = await this.stateProgramRepository
+            .DeleteAsync(storageStateProgram);
 
-        storageStateProgram.State = deleteStatusObj;
-
-        var updateStateProgram = await this.stateProgramRepository
-            .UpdateAsync(storageStateProgram);
-
-        return new SPDto(
-           updateStateProgram.Id,
-           updateStateProgram.OrderNumber,
-           updateStateProgram.ShortName,
-           updateStateProgram.FullName,
-           new State { Id = deleteStatusObj.Id, Name = deleteStatusObj.Name });
+        return this.mapper
+            .Map<SPDto>(removeSP);
     }
 }
