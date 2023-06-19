@@ -20,10 +20,26 @@ public class StateProgramController : ControllerBase
         return Created("", newStateProgram);
     }
     [HttpGet]
+    public async ValueTask<ActionResult<SPDto>> SelectByIdAsync(int id)
+    {
+        var sps = await this.stateProgramService
+            .SelectByIdAsync(id);
+
+        return Ok(sps);
+    }
+    [HttpPut]
+    public async ValueTask<ActionResult<SPDto>> UpdateAsync(SPModifyDlDto dto)
+    {
+        var sps = await this.stateProgramService
+            .UpdateAsync(dto);
+
+        return Ok(sps);
+    }
+    [HttpGet]
     public IActionResult SelectListAsync()
     {
         var statePrograms = this.stateProgramService
-            .StateProgramSelectListAsync();
+            .StateProgramSelectList();
 
         return Ok(statePrograms);
     }

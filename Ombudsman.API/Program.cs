@@ -30,6 +30,7 @@ namespace Ombudsman.API
             app.UseAuthorization();
 
             app.UseMiddleware<ExceptionHandling>();
+            app.UseMiddleware<UserInjectMiddlewares>();
 
             app.MapControllers();
 

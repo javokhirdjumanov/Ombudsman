@@ -46,7 +46,8 @@ public class UserService : IUserService
     {
         var users = this.userRepository
             .SelectAll()
-            .Include(x => x.Role).Include(u => u.Organization);
+            .Include(x => x.Role)
+            .Include(u => u.Organization);
 
         /*if (authServices.User.Role.Id != StatusIds.DELETE)
         {

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ServiceLayer.Services;
 
 namespace Ombudsman.API.Controllers;
@@ -29,6 +30,7 @@ public class EmployeeController : ControllerBase
         return Ok(employees);
     }
     [HttpGet("{id:int}")]
+    [Authorize]
     public async ValueTask<ActionResult<EmpDto>> SelectById(int id)
     {
         var employee = await this._employeeService

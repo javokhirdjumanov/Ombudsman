@@ -63,6 +63,7 @@ public class MappingProfile : Profile
 
         #region state programm mapping
         CreateMap<SPDlDto, StateProgram>();
+        CreateMap<SPModifyDlDto, StateProgram>();
         CreateMap<StateProgram, SPDto>();
         #endregion
 

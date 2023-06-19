@@ -22,10 +22,10 @@ public class StateProgramService : IStateProgramService
         this.mapper = mapper;
     }
 
-    public async ValueTask<SPDto> CreateStateProgramAsync(SPDlDto spDlDto)
+    public async ValueTask<SPDto> CreateStateProgramAsync(SPDlDto dto)
     {
         var newStateProgram = this.mapper
-            .Map<StateProgram>(spDlDto);
+            .Map<StateProgram>(dto);
 
         var addedStatusProgram = await this.stateProgramRepository
             .InsertAsync(newStateProgram);
@@ -33,7 +33,7 @@ public class StateProgramService : IStateProgramService
         return this.mapper
             .Map<SPDto>(addedStatusProgram);
     }
-    public IQueryable<SPDto> StateProgramSelectListAsync()
+    public IQueryable<SPDto> StateProgramSelectList()
     {
         var statePrograms = this.stateProgramRepository
             .SelectAll()
@@ -41,6 +41,35 @@ public class StateProgramService : IStateProgramService
 
         return statePrograms
             .Select(x => this.mapper.Map<SPDto>(x));
+    }
+    public async ValueTask<SPDto> SelectByIdAsync(int id)
+    {
+        var stateProgram = await this.stateProgramRepository
+            .SelectByIdWithDetailsAsync(
+            expression: st => st.Id == id,
+            includes: new string[] {nameof(StateProgram.State) });
+
+        return
+            this.mapper.Map<SPDto>(stateProgram);
+    }
+    public async ValueTask<SPDto> UpdateAsync(SPModifyDlDto dto)
+    {
+        var storageSP = await this.stateProgramRepository.SelectByIdWithDetailsAsync(
+            expression: s => s.Id == dto.Id,
+            includes: new string[] { nameof(StateProgram.State) });
+
+        ValidationStorageObj
+            .GenericValidation<StateProgram>(storageSP, dto.Id);
+
+        storageSP = this.mapper
+            .Map<StateProgram>(storageSP);
+
+        storageSP = await this.stateProgramRepository
+            .UpdateAsync(storageSP);
+
+        return this.mapper
+            .Map<SPDto>(storageSP);
+
     }
     public async ValueTask<SPDto> DeleteStateProgramAsync(int id)
     {

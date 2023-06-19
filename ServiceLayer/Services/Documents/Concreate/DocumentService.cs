@@ -38,14 +38,14 @@ public class DocumentService : IDocumentService
         try
         {
             /// If the document is not designed and the project date and number are entered !!error
-            if (cDto.documentStatusId != 1
+            if (cDto.documentStatusId != StatusIds.DOCUMENT_STATUS
                 && cDto.normativeDocDate is not null)
             {
                 throw new Exception(
                     "Your document is not designed :(");
             }
             /// If the document is drafted and does not include the draft date and number !!error
-            if (cDto.documentStatusId == 1
+            if (cDto.documentStatusId == StatusIds.DOCUMENT_STATUS
                 && cDto.normativeDocDate is null)
             {
                 throw new Exception("Your document is designed\n" +
@@ -68,7 +68,7 @@ public class DocumentService : IDocumentService
             }
 
             /// If the document type is `Memorandum' and you want to create an information letter !!error
-            if (cDto.normativeDocumentId == 6 
+            if (cDto.normativeDocumentId == StatusIds.MEMORANDUM
                 && cDto.createLetterDlDto is not null)
             {
                 throw new Exception(
@@ -99,7 +99,7 @@ public class DocumentService : IDocumentService
         {
             await this.unitOfWork.Rolback();
 
-            return 0;
+            return -1;
         }
         await this.unitOfWork.Save();
         await this.unitOfWork.Commit();
