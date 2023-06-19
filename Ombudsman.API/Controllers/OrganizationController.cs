@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ServiceLayer.Services;
 
 namespace Ombudsman.API.Controllers;
@@ -46,5 +47,14 @@ public class OrganizationController : ControllerBase
         var removeOrg = await this.organizationService.DeleteAsync(id);
 
         return Ok(removeOrg);
+    }
+    [HttpGet]
+    [Authorize]
+    public async ValueTask<ActionResult<EmpDto>> SelectEmployeesOfOrganization()
+    {
+        var employees = await this.organizationService
+            .SelectEmployeesOfOrganization();
+
+        return Ok(employees);
     }
 }

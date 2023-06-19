@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using DataLayer;
 using DataLayer.Repository;
+using DomainLayer.Entities;
 using DomainLayer.Entities.ENUM;
 using DomainLayer.Entities.INFO;
 using Microsoft.EntityFrameworkCore;
 using ServiceLayer.Validations;
+using System.Net.Http.Headers;
 
 namespace ServiceLayer.Services;
 public class OrganizationService : IOrganizationService
@@ -12,14 +14,17 @@ public class OrganizationService : IOrganizationService
     private readonly IOrganizationRepository organizationRepository;
     private readonly IUnitOfWork unitOfWork;
     private readonly IMapper mapper;
+    private readonly IAuthServices authServices;
     public OrganizationService(
         IOrganizationRepository organizationRepository,
         IUnitOfWork unitOfWork,
-        IMapper mapper)
+        IMapper mapper,
+        IAuthServices authServices)
     {
         this.organizationRepository = organizationRepository;
         this.unitOfWork = unitOfWork;
         this.mapper = mapper;
+        this.authServices = authServices;
     }
 
     public async ValueTask<OrgDto> CreateAsync(OrgDlDto orgDlDto)
@@ -80,5 +85,15 @@ public class OrganizationService : IOrganizationService
             .DeleteAsync(storageOrganization);
 
         return this.mapper.Map<OrgDto>(storageOrganization);
+    }
+    public async ValueTask<List<EmpDto>> SelectEmployeesOfOrganization()
+    {
+        var employees = this.unitOfWork.context.Employees
+            .Where(x => x.OrganizationId == authServices.User.OrganizationId)
+            .Include(nameof(Employee.Organization))
+            .ToList();
+        
+        return employees
+            .Select(emp => this.mapper.Map<EmpDto>(emp)).ToList();
     }
 }
