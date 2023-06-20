@@ -4,8 +4,9 @@ using System.ComponentModel.DataAnnotations;
 namespace ServiceLayer.Services;
 public class BaseVizaDlDto
 {
-    [Required]
+    [Required, Range(1, int.MaxValue)]
     public int orderNumber { get; set; }
+
 
     [Required, Range(1, int.MaxValue)]
     public int organizationId { get; set; }
@@ -22,6 +23,5 @@ public class BaseVizaDlDto
     [Required]
     public string phoneNumber { get; set; }
 
-    //[JsonConverter(typeof(DateTimeConverter))]
     public DateTime? dateVisaAddition { get; set; }
 }

@@ -3,6 +3,7 @@ using DataLayer;
 using DataLayer.Context;
 using DataLayer.Repository;
 using DomainLayer.Constants;
+using DomainLayer.Entities;
 using DomainLayer.Entities.DOC;
 using DomainLayer.Entities.ENUM;
 using DomainLayer.Entities.INFO;
@@ -128,17 +129,15 @@ public partial class DocumentService : IDocumentService
             expression: doc => doc.Id == docModDlDto.Id,
             includes: new string[]
             {
-                $"{nameof(Document.DocumentImportanceId)}",
-                $"{nameof(Document.StateProgramId)}",
-                $"{nameof(Document.SectorId)}",
-                $"{nameof(Document.OrginizationUserId)}",
-                $"{nameof(Document.InitiativeTypeId)}",
-                $"{nameof(Document.OrganizationId)}",
-                $"{nameof(Document.DocumentStatusId)}",
-                $"{nameof(Document.FileId)}",
-                $"{nameof(Document.InformationLetters)}" +
-                    $".{nameof(InformationLetter.EmployeeId)}" +
-                    $".{nameof(InformationLetter.StateProgramId)}",
+                $"{nameof(Document.DocumentImportance)}",
+                $"{nameof(Document.StateProgram)}",
+                $"{nameof(Document.Sector)}",
+                $"{nameof(Document.OrginizationUser)}",
+                $"{nameof(Document.InitiativeType)}",
+                $"{nameof(Document.Organization)}",
+                $"{nameof(Document.DocumentStatus)}",
+                $"{nameof(Document.File)}",
+                $"{nameof(Document.InformationLetters)}.{nameof(InformationLetter.Employee)}"
             });
 
         ValidationStorageObj

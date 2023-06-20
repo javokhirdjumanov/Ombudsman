@@ -12,6 +12,15 @@ public class VisaController : ControllerBase
         this.visaHolderService = visaHolderService;
     }
 
+    [HttpPost]
+    public async ValueTask<ActionResult<int>> CreateAsync(CreateVizaDlDto dto)
+    {
+        var newVisaHolder = await this.visaHolderService
+            .CreateAsync(dto);
+
+        return Created("", newVisaHolder);
+    }
+
     [HttpGet]
     public IActionResult SelectList()
     {

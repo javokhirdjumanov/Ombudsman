@@ -4,6 +4,7 @@ using DataLayer.Repository;
 using DomainLayer.Constants;
 using DomainLayer.Entities.DOC;
 using Microsoft.EntityFrameworkCore;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Query.ExpressionTranslators.Internal;
 using ServiceLayer.Validations;
 
 namespace ServiceLayer.Services;
@@ -21,6 +22,22 @@ public class VisaHolderService : IVisaHolderService
         this.mapper = mapper;
     }
 
+    public async ValueTask<int> CreateAsync(CreateVizaDlDto dto)
+    {
+        if ((dto.documentId is not null && dto.informationLetterId is not null)
+            || (dto.documentId is null && dto.informationLetterId is null))
+        {
+            throw new Exception("You can only create visa holders for one model !");
+        }
+
+        var newVisaHolder = this.mapper
+            .Map<VisaHolders>(dto);
+
+        newVisaHolder = await this.visaHolderRepository
+            .InsertAsync(newVisaHolder);
+
+        return newVisaHolder.Id;
+    }
     public IQueryable<VizaHolderDto> SelectList()
     {
         var visaHolders = this.visaHolderRepository
@@ -50,20 +67,20 @@ public class VisaHolderService : IVisaHolderService
         return this.mapper
             .Map<VizaHolderDto>(storageVisa);
     }
-    public async ValueTask<VizaHolderDto> UpdateAsync(UpdateVizaDlDto updateVizaDlDto, int? docId, int? infId)
+    public async ValueTask<VizaHolderDto> UpdateAsync(UpdateVizaDlDto dto, int? docId, int? infId)
     {
         var storageVisa = await this.visaHolderRepository
             .SelectByIdWithDetailsAsync(
-            expression: vs => vs.Id == updateVizaDlDto.Id
+            expression: vs => vs.Id == dto.Id
                                     && ((vs.DocumentId == docId && vs.Document.DocumentStatusId != StatusIds.DELETE)
                                     || vs.InformationLetterId == infId),
             includes: new string[] { nameof(VisaHolders.Document) });
 
         ValidationStorageObj
-            .GenericValidation<VisaHolders>(storageVisa, updateVizaDlDto.Id);
+            .GenericValidation<VisaHolders>(storageVisa, dto.Id);
 
         var changedVisa = this.mapper
-            .Map(updateVizaDlDto, storageVisa);
+            .Map(dto, storageVisa);
 
         changedVisa = await this.visaHolderRepository
             .UpdateAsync(changedVisa);

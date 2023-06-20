@@ -72,7 +72,6 @@ public class ManualService : IManualService
             this.unitOfWork.context.UserRoles
             .Select(x => this.mapper.Map<UserRoleDto>(x));
     }
-
     public IQueryable<LanguageDto> LanguageSelectList()
     {
         return this.unitOfWork.context.Languages
