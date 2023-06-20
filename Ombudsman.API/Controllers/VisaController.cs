@@ -29,7 +29,8 @@ public class VisaController : ControllerBase
         return Ok(visa);
     }
     [HttpPut]
-    public async ValueTask<ActionResult<VizaHolderDto>> UpdateAsync(UpdateVizaDlDto dto, int? docId, int? infId)
+    public async ValueTask<ActionResult<VizaHolderDto>> UpdateAsync(
+        UpdateVizaDlDto dto, int? docId, int? infId)
     {
         var visa = await this.visaHolderService
             .UpdateAsync(dto, docId, infId);
@@ -37,7 +38,8 @@ public class VisaController : ControllerBase
         return Ok(visa);
     }
     [HttpGet]
-    public async ValueTask<ActionResult<VizaHolderDto>> DeleteAsync(int id, int? documentId, int? informationId)
+    public async ValueTask<ActionResult<VizaHolderDto>> DeleteAsync(
+        int id, int? documentId, int? informationId)
     {
         var removed = await this.visaHolderService
             .DeleteAsync(id, documentId, informationId);

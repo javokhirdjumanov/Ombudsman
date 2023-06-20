@@ -5,6 +5,7 @@ using ServiceLayer.Services;
 namespace Ombudsman.API.Controllers;
 [Route("api/[controller]/[action]")]
 [ApiController]
+[Authorize]
 public class EmployeeController : ControllerBase
 {
     private readonly IEmployeeService _employeeService;
@@ -21,6 +22,7 @@ public class EmployeeController : ControllerBase
 
         return Created("", employee);
     }
+
     [HttpGet]
     public IActionResult SelectList()
     {
@@ -29,8 +31,8 @@ public class EmployeeController : ControllerBase
 
         return Ok(employees);
     }
+
     [HttpGet("{id:int}")]
-    [Authorize]
     public async ValueTask<ActionResult<EmpDto>> SelectById(int id)
     {
         var employee = await this._employeeService
@@ -38,6 +40,7 @@ public class EmployeeController : ControllerBase
 
         return Ok(employee);
     }
+
     [HttpPut]
     public async ValueTask<ActionResult<EmpDto>> UpdateAsync(EmpUpdateDlDto empUpdateDlDto)
     {
@@ -46,6 +49,7 @@ public class EmployeeController : ControllerBase
         
         return Ok(employee);
     }
+
     [HttpDelete]
     public async ValueTask<ActionResult<EmpDto>> DeleteAsync(int id)
     {

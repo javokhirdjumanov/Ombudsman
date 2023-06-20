@@ -69,7 +69,6 @@ public class Document
     public DateTime? NormativeDocDate { get; set; }
     [Column("file_id")]
     public int? FileId { get; set; }
-
     [ForeignKey("DocumentImportanceId")]
     [InverseProperty("Documents")]
     public virtual DocumentImportance DocumentImportance { get; set; } = null!;

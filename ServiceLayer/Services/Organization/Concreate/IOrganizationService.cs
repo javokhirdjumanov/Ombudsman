@@ -6,5 +6,4 @@ public interface IOrganizationService
     ValueTask<OrgDto> SelectByIdAsync(int id);
     ValueTask<OrgDto> UpdateAsync(OrgDlDtoForModify orgDlDtoForModify);
     ValueTask<OrgDto> DeleteAsync(int id);
-    ValueTask<List<EmpDto>> SelectEmployeesOfOrganization();
 }

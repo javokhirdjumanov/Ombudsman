@@ -20,6 +20,7 @@ public class OrganizationController : ControllerBase
 
         return Created("", newOrganization);
     }
+
     [HttpGet]
     public IActionResult SelectList()
     {
@@ -27,6 +28,7 @@ public class OrganizationController : ControllerBase
 
         return Ok(organizations);
     }
+
     [HttpGet("{id:int}")]
     public async ValueTask<ActionResult<OrgDto>> SelectByIdAsync(int id)
     {
@@ -34,6 +36,7 @@ public class OrganizationController : ControllerBase
 
         return Ok(organization);
     }
+
     [HttpPut]
     public async ValueTask<ActionResult<OrgDto>> UpdateAsync(OrgDlDtoForModify orgDlDtoForModify)
     {
@@ -41,20 +44,12 @@ public class OrganizationController : ControllerBase
 
         return Ok(updateOrg);
     }
+
     [HttpDelete("{id:int}")]
     public async ValueTask<ActionResult<OrgDto>> DeleteAsync(int id)
     {
         var removeOrg = await this.organizationService.DeleteAsync(id);
 
         return Ok(removeOrg);
-    }
-    [HttpGet]
-    [Authorize]
-    public async ValueTask<ActionResult<EmpDto>> SelectEmployeesOfOrganization()
-    {
-        var employees = await this.organizationService
-            .SelectEmployeesOfOrganization();
-
-        return Ok(employees);
     }
 }

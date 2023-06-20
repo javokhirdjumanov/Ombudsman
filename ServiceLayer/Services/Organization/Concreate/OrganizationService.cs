@@ -86,14 +86,4 @@ public class OrganizationService : IOrganizationService
 
         return this.mapper.Map<OrgDto>(storageOrganization);
     }
-    public async ValueTask<List<EmpDto>> SelectEmployeesOfOrganization()
-    {
-        var employees = this.unitOfWork.context.Employees
-            .Where(x => x.OrganizationId == authServices.User.OrganizationId)
-            .Include(nameof(Employee.Organization))
-            .ToList();
-        
-        return employees
-            .Select(emp => this.mapper.Map<EmpDto>(emp)).ToList();
-    }
 }

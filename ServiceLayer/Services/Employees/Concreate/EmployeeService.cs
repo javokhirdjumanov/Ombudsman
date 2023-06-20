@@ -8,12 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using ServiceLayer.Validations;
 
 namespace ServiceLayer.Services;
-public class EmployeeService : IEmployeeService
+public partial class EmployeeService : IEmployeeService
 {
     private readonly IEmployeeRepository employeeRepository;
+    private readonly IAuthServices authServices;
     private readonly IUnitOfWork unitOfWork;
     private readonly IMapper mapper;
-    private readonly IAuthServices authServices;
     public EmployeeService(
         IEmployeeRepository employeeRepository,
         IUnitOfWork unitOfWork,
@@ -27,6 +27,8 @@ public class EmployeeService : IEmployeeService
     }
     public async ValueTask<EmpDto> CreateAsync(EmpCreateDlDto empDlDto)
     {
+        ValidationIfPersonHisOrganization(empDlDto.organizationId);
+
         var employee = mapper
             .Map<Employee>(empDlDto);
 
@@ -50,10 +52,7 @@ public class EmployeeService : IEmployeeService
         ValidationStorageObj
             .GenericValidation<Employee>(storageEmp, id);
 
-        if(storageEmp.OrganizationId != this.authServices.User.OrganizationId)
-        {
-            throw new Exception("You have not permession that to view this user");
-        }
+        ValidationIfPersonHisOrganization(storageEmp.OrganizationId);
 
         return this.mapper
             .Map<EmpDto>(storageEmp);
@@ -63,7 +62,8 @@ public class EmployeeService : IEmployeeService
         var employees = this.employeeRepository
             .SelectAll()
             .Include(e => e.Organization)
-            .ThenInclude(o => o.State);
+            .ThenInclude(o => o.State)
+            .Where(e => e.OrganizationId == this.authServices.User.OrganizationId);
 
         return employees
             .Select(emp => this.mapper
@@ -94,7 +94,10 @@ public class EmployeeService : IEmployeeService
         ValidationStorageObj
             .GenericValidation<Employee>(badEmployee, id);
 
-        var removeEmp = this.employeeRepository.DeleteAsync(badEmployee);
+        ValidationIfPersonHisOrganization(badEmployee.OrganizationId);
+
+        badEmployee = await this.employeeRepository
+            .DeleteAsync(badEmployee);
 
         return this.mapper
             .Map<EmpDto>(badEmployee);

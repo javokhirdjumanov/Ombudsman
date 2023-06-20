@@ -31,7 +31,6 @@ public class UserController : ControllerBase
         return Ok(users);
     }
     [HttpGet("{id:int}")]
-    [Authorize]
     public async ValueTask<ActionResult<UserDto>> SelectByIdAsync(int id)
     {
         var user = await this.userService

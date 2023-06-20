@@ -3,8 +3,6 @@ using DomainLayer.Entities.DOC.Files;
 using DomainLayer.Exceptions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Hosting.Internal;
 using ServiceLayer.Validations;
 
 namespace ServiceLayer.Services;

@@ -5,12 +5,11 @@ using ServiceLayer.Services;
 namespace Ombudsman.API.Attributes;
 public class UserActionAttribute : ActionFilterAttribute
 {
-    private int? _tableId;
+    private int? tableId;
 
     public UserActionAttribute(int tableId = 0)
     {
-        _tableId = (tableId == 0) ? null : tableId;
-
+        this.tableId = (tableId == 0) ? null : tableId;
     }
     public override void OnResultExecuting(ResultExecutingContext context)
     {
