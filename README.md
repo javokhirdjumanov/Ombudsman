@@ -3,7 +3,7 @@ This project aims to automate the documentation process. It is built using an en
 
 ## Project Features
 1. **Entire Architecture:** The project follows a well-structured architecture design.
-2. **Database Diagram:** Check out the [database diagram]([[link_to_diagram:https://dbdiagram.io/d/643469488615191cfa8cc77c]].) that consists of 30 tables.
+2. **Database Diagram:** Check out the [database diagram]([[link_to_diagram]]) that consists of 30 tables.
 3. **Multi-Language Support:** The application is localized to support multiple languages.
 4. **Authentication and Authorization:** Implemented authentication and authorization features.
 5. **Transaction Operations:** Child tables within a table are stored in the database using transaction operations.
