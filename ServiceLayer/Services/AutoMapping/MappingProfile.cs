@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DataLayer.Repository.DOC.InformationLetter.InformationLetterDtos;
 using DomainLayer.Entities;
 using DomainLayer.Entities.DOC;
 using DomainLayer.Entities.ENUM;

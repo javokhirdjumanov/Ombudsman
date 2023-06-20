@@ -10,6 +10,8 @@ namespace Ombudsman.API
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.AddLogging(builder.Configuration);
+
             builder.Services
                 .AddDataLayer(builder.Configuration)
                 .AddServiceLayer()

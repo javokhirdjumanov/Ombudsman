@@ -1,7 +1,5 @@
-﻿using Newtonsoft.Json;
-using ServiceLayer.ConverterFormat;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using DataLayer.Repository.DOC.InformationLetter.InformationLetterDtos;
 
 namespace ServiceLayer.Services.Documents;
 public class DocCreateDlDto : BaseDocDlDto
@@ -9,7 +7,6 @@ public class DocCreateDlDto : BaseDocDlDto
     [Required, Range(1, int.MaxValue)]
     public int normativeDocumentId { get; set; }
 
-    //[JsonConverter(typeof(DateTimeConverter))]
     public DateTime? sendDocumentData { get; set; }
 
     public int? normativeDocNumber { get; set; }

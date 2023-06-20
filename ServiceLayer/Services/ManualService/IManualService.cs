@@ -1,7 +1,4 @@
-﻿using DomainLayer.Entities.ENUM;
-using DomainLayer.Entities.INFO;
-
-namespace ServiceLayer.Services;
+﻿namespace ServiceLayer.Services;
 public interface IManualService
 {
     IQueryable<NormativeDocTypeDto> NormativeDocumentTypesSelectList();

@@ -1,4 +1,5 @@
 ﻿using DomainLayer.Exceptions;
+using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Text.Json;
@@ -11,7 +12,8 @@ public class ExceptionHandling
         => _next = next;
 
     public async Task InvokeAsync(
-        HttpContext httpContext)
+        HttpContext httpContext,
+        [FromServices]ILogger<ExceptionHandling> logger)
     {
         try
         {
@@ -20,6 +22,8 @@ public class ExceptionHandling
         catch (ValidationException validationException)
         {
             httpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+
+            logger.LogError(validationException, validationException.Message);
 
             await HandleExceptionAsync(httpContext, validationException.Message);
         }
@@ -32,11 +36,15 @@ public class ExceptionHandling
                 notFoundException.Message
             });
 
+            logger.LogError(notFoundException, notFoundException.Message);
+
             await HandleExceptionAsync(httpContext, serializedObject);
         }
         catch (Exception ex)
         {
             await HandleExceptionAsync(httpContext, ex.Message);
+
+            logger.LogError(ex, ex.Message);
         }
     }
     private async Task HandleExceptionAsync(HttpContext context, string message)

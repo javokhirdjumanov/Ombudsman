@@ -1,10 +1,9 @@
 ﻿using DataLayer.Auth.JwtTokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
+using Serilog;
 using ServiceLayer.ConverterFormat;
 using System.Text;
 
@@ -88,6 +87,20 @@ namespace Ombudsman.API
                     }
                 });
             });
+        }
+        public static WebApplicationBuilder AddLogging(
+            this WebApplicationBuilder builder,
+            IConfiguration configuration)
+        {
+            var logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(configuration)
+                .Enrich.FromLogContext()
+                .CreateLogger();
+
+            builder.Logging.ClearProviders();
+            builder.Logging.AddSerilog(logger);
+
+            return builder;
         }
     }
 }

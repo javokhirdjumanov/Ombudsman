@@ -14,7 +14,7 @@ namespace DomainLayer.Entities.HL;
 public class User
 {
     private const int DEFAULT_EXPIRE_DATE_IN_MINUTES = 1440;
-    
+
     public User()
     {
         Documents = new HashSet<Document>();
@@ -58,7 +58,8 @@ public class User
     [InverseProperty("OrginizationUser")]
     public virtual ICollection<Document> Documents { get; set; }
 
-    public void UpdateRefreshToken(string refreshToken, int expireDateInMinutes = DEFAULT_EXPIRE_DATE_IN_MINUTES)
+    public void UpdateRefreshToken(string refreshToken,
+                                   int expireDateInMinutes = DEFAULT_EXPIRE_DATE_IN_MINUTES)
     {
         RefreshToken = refreshToken;
 

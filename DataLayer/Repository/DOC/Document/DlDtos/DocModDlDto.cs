@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using DataLayer.Repository.DOC.InformationLetter.InformationLetterDtos;
 
 namespace ServiceLayer.Services.Documents;
 public class DocModDlDto : BaseDocDlDto

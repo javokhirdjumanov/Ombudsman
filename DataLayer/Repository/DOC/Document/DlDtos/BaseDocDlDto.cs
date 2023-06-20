@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-using ServiceLayer.ConverterFormat;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ServiceLayer.Services;
 public class BaseDocDlDto
@@ -19,7 +17,6 @@ public class BaseDocDlDto
 
     public string? documentContent { get; set;}
 
-    //[JsonConverter(typeof(DateTimeConverter))]
     public DateTime? estimatedExecutionTime { get; set; }
 
     public int? sectorId { get; set; }

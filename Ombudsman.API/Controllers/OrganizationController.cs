@@ -5,6 +5,7 @@ using ServiceLayer.Services;
 namespace Ombudsman.API.Controllers;
 [Route("api/[controller]/[action]")]
 [ApiController]
+[Authorize]
 public class OrganizationController : ControllerBase
 {
     private readonly IOrganizationService organizationService;

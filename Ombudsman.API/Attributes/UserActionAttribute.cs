@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Controllers;
-using Microsoft.AspNetCore.Mvc.Filters;
-using ServiceLayer.Services;
+﻿using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Ombudsman.API.Attributes;
 public class UserActionAttribute : ActionFilterAttribute

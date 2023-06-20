@@ -1,8 +1,5 @@
 ﻿using DomainLayer.Constants;
-using DomainLayer.Entities.HL;
 using ServiceLayer.Services.Documents;
-using System.ComponentModel.Design;
-using System.Security;
 
 namespace ServiceLayer.Services;
 public partial class DocumentService
@@ -10,7 +7,7 @@ public partial class DocumentService
     public void ValidateIfUserNotHavePermission(DocCreateDlDto cDto)
     {
         /// if the user who wants to add a document to any organization does not belong to that organization
-        if (cDto.organizationId != authServices.User.Id)
+        if (cDto.organizationId != this.authServices.User.Id)
         {
             throw new Exception("You have not permession that to view this user");
         }

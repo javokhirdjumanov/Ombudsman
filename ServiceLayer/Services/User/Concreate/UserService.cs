@@ -32,33 +32,29 @@ public class UserService : IUserService
 
     public async ValueTask<int> CreateAsync(UserCreateDlDto dto)
     {
-        var entity = this.mapper.Map<User>(dto);
-        entity.Salt = Guid.NewGuid().ToString();
-        entity.PasswordHash = passwordHasher
-            .Encrypt(dto.Password, entity.Salt);
+        var newUSer = this.mapper.Map<User>(dto);
 
-        entity = await this.userRepository
-            .InsertAsync(entity);
+        newUSer.Salt = Guid.NewGuid().ToString();
 
-        return entity.Id;
+        newUSer.PasswordHash = passwordHasher
+            .Encrypt(dto.Password, newUSer.Salt);
+
+        newUSer = await this.userRepository
+            .InsertAsync(newUSer);
+
+        return newUSer.Id;
     }
     public IQueryable<UserDto> SelectList()
     {
-        var users = this.userRepository
-            .SelectAll()
-            .Include(x => x.Role)
-            .Include(u => u.Organization);
-
-        /*if (authServices.User.Role.Id != StatusIds.DELETE)
+        var users = this.userRepository.SelectAll()
+            .Include(x => x.Role).Include(u => u.Organization);
+        if(authServices.User.RoleId != RoleConst.SUPERADMIN)
         {
             users = users
                 .Where(u => u.OrganizationId == authServices.User.OrganizationId)
-                .Include(x => x.Role);
-        }*/
-        users = users
-            .Where(u => u.Role.Id != StatusIds.DELETE)
-            .Include(x => x.Role)
-            .Include(u => u.Organization);
+                .Include(u => u.Role)
+                .Include(u => u.Organization);
+        }
 
         return users
             .Select(x => this.mapper.Map<UserDto>(x));
@@ -67,20 +63,19 @@ public class UserService : IUserService
     {
         var storageUser = await this.userRepository
             .SelectByIdWithDetailsAsync(
-            expression: u => u.Id == id && u.RoleId != StatusIds.DELETE,
+            expression: u => u.Id == id,
             includes: new string[]
-            { 
+            {
                 nameof(User.Role)
             });
 
         ValidationStorageObj
             .GenericValidation<User>(storageUser, id);
 
-        /*if (storageUser.OrganizationId == authServices.User.OrganizationId)
+        if (storageUser.OrganizationId == authServices.User.OrganizationId)
             return mapper.Map<UserDto>(storageUser);
         else
-            throw new Exception($"User NotFound with given id: {id}");*/
-        return mapper.Map<UserDto>(storageUser);
+            throw new Exception($"User NotFound with given id: {id}");
     }
     public async ValueTask<UserDto> UpdateAsync(UserModifyDlDto dto)
     {
@@ -91,6 +86,12 @@ public class UserService : IUserService
             {
                 nameof(User.Role)
             });
+
+        ValidationStorageObj
+            .GenericValidation<User>(storageUser, dto.Id);
+
+        if(storageUser.OrganizationId != authServices.User.OrganizationId)
+            throw new Exception("You can only create visa holders for one model !");
 
         storageUser = this.mapper
             .Map(dto, storageUser);
@@ -106,9 +107,8 @@ public class UserService : IUserService
         var user = await this.userRepository
             .SelectByIdAsync(id);
 
-        user.RoleId = StatusIds.DELETE;
-
-        await this.unitOfWork.Save();
+        user = await this.userRepository
+            .DeleteAsync(user);
 
         return user.Id;
     }

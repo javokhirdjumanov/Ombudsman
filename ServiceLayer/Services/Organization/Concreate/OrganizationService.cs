@@ -40,22 +40,32 @@ public class OrganizationService : IOrganizationService
     {
         var organizations = this.organizationRepository
             .SelectAll()
+            .Where(o => o.Id == authServices.User.OrganizationId)
             .Include(o => o.State)
             .Include(o => o.StateOrganizationIdsNavigation);
 
-        return organizations.Select(o => this.mapper.Map<OrgDto>(o));
+        return organizations
+            .Select(o => this.mapper.Map<OrgDto>(o));
     }
     public async ValueTask<OrgDto> SelectByIdAsync(int id)
     {
-        var org = await this.organizationRepository.SelectByIdWithDetailsAsync(
+        var org = await this.organizationRepository
+            .SelectByIdWithDetailsAsync(
             expression: org => org.Id == id,
             includes: new string[]
-            { 
+            {
                 nameof(Organization.StateOrganizationIdsNavigation),
                 nameof(Organization.State)
             });
 
-        return this.mapper.Map<OrgDto>(org);
+        var orgsad = this.unitOfWork.context.StateOrganizationTranslates
+            .FirstOrDefault(o => o.OwnerId == org.Id && o.LanguageId == authServices.User.LanguageId);
+
+        org.FullName = orgsad.TranslateText;
+        org.ShortName = orgsad.TranslateText;
+
+        return this.mapper
+            .Map<OrgDto>(org);
     }
     public async ValueTask<OrgDto> UpdateAsync(OrgDlDtoForModify orgDlDtoForModify)
     {

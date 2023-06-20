@@ -31,7 +31,6 @@ public class AuthServices : IAuthServices
         this.options = options.Value;
     }
     public User User { get; set; }
-
     public async ValueTask<TokenDto> LoginAsync(AuthDlDto authentificationDto)
     {
         var storageUser = await userRepository
@@ -48,9 +47,7 @@ public class AuthServices : IAuthServices
             hash: storageUser.PasswordHash,
             password: authentificationDto.password,
             salt: storageUser.Salt))
-        {
-            throw new ValidationExceptions("Username or password is not valid");
-        }
+                throw new ValidationExceptions("Username or password is not valid");
 
         string refreshToken = jwtTokenHandler
             .GenerateRefreshToken();

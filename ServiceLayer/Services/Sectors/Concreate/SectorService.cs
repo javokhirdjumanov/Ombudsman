@@ -5,7 +5,6 @@ using DomainLayer.Entities.ENUM;
 using DomainLayer.Entities.INFO;
 using Microsoft.EntityFrameworkCore;
 using ServiceLayer.Validations;
-
 namespace ServiceLayer.Services;
 public class SectorService : ISectorService
 {
@@ -21,7 +20,6 @@ public class SectorService : ISectorService
         this.unitOfWork = unitOfWork;
         this.mapper = mapper;
     }
-
     public async ValueTask<SectorDto> CreateSectorAsync(SectorDlDto sector)
     {
         var newSector = this.mapper
@@ -33,7 +31,6 @@ public class SectorService : ISectorService
         return this.mapper
             .Map<SectorDto>(addedSector);
     }
-
     public IQueryable<SectorDto> SectorsSelectListAsync()
     {
         var allSectors = this.sectorRepository
@@ -43,7 +40,6 @@ public class SectorService : ISectorService
         return allSectors
             .Select(c => this.mapper.Map<SectorDto>(c));
     }
-
     public async ValueTask<SectorDto> DeleteSectorAsync(int id)
     {
         var storageSector = await this.sectorRepository
@@ -58,7 +54,6 @@ public class SectorService : ISectorService
         return this.mapper
             .Map<SectorDto>(storageSector);
     }
-
     public async ValueTask<SectorDto> SelectSectorByIdAsync(int id)
     {
         var storageSector = await this.sectorRepository
@@ -69,10 +64,12 @@ public class SectorService : ISectorService
                 nameof(Sector.State)
             });
 
+        ValidationStorageObj
+            .GenericValidation<Sector>(storageSector, id);
+
         return this.mapper
             .Map<SectorDto>(storageSector);
     }
-
     public async ValueTask<SectorDto> UpdateSectorAsync(SectorUpdateDlDto sectorUpdateDlDto)
     {
         var sector = await this.sectorRepository
