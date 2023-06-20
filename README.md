@@ -1,8 +1,6 @@
 ## Ombudsman System
 ### Diogramm: https://dbdiagram.io/d/643469488615191cfa8cc77c
 
-# Menda OmbudmanV2
-
 This project aims to automate the documentation process. It is built using an entire architecture, including PostgreSql, EfCore, RestAPI, UnitOfWork Pattern, Singleton Pattern, and Data First Approach.
 
 ## Project Features
