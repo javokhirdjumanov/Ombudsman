@@ -15,7 +15,7 @@ public class StateProgramController : ControllerBase
     public async ValueTask<ActionResult<SPDto>> CreateAsync(SPDlDto spDlDto)
     {
         var newStateProgram = await this.stateProgramService
-            .CreateStateProgramAsync(spDlDto);
+            .CreateAsync(spDlDto);
 
         return Created("", newStateProgram);
     }
@@ -39,14 +39,14 @@ public class StateProgramController : ControllerBase
     public IActionResult SelectListAsync()
     {
         var statePrograms = this.stateProgramService
-            .StateProgramSelectList();
+            .SelectList();
 
         return Ok(statePrograms);
     }
     [HttpDelete("{id:int}")]
     public async ValueTask<ActionResult<SPDto>> DeleteAsync(int id)
     {
-        var removedStateProgram = await this.stateProgramService.DeleteStateProgramAsync(id);
+        var removedStateProgram = await this.stateProgramService.DeleteAsync(id);
 
         return Ok(removedStateProgram);
     }

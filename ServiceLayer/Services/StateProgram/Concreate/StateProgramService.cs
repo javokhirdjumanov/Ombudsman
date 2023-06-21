@@ -22,7 +22,7 @@ public class StateProgramService : IStateProgramService
         this.mapper = mapper;
     }
 
-    public async ValueTask<SPDto> CreateStateProgramAsync(SPDlDto dto)
+    public async ValueTask<SPDto> CreateAsync(SPDlDto dto)
     {
         var newStateProgram = this.mapper
             .Map<StateProgram>(dto);
@@ -33,7 +33,7 @@ public class StateProgramService : IStateProgramService
         return this.mapper
             .Map<SPDto>(addedStatusProgram);
     }
-    public IQueryable<SPDto> StateProgramSelectList()
+    public IQueryable<SPDto> SelectList()
     {
         var statePrograms = this.stateProgramRepository
             .SelectAll()
@@ -71,7 +71,7 @@ public class StateProgramService : IStateProgramService
             .Map<SPDto>(storageSP);
 
     }
-    public async ValueTask<SPDto> DeleteStateProgramAsync(int id)
+    public async ValueTask<SPDto> DeleteAsync(int id)
     {
         var storageStateProgram = await this.stateProgramRepository
             .SelectByIdAsync(id);

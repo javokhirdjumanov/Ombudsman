@@ -11,7 +11,6 @@ namespace ServiceLayer.Services;
 public class UserService : IUserService
 {
     private readonly IUserRepository userRepository;
-    private readonly IUnitOfWork unitOfWork;
     private readonly IPasswordHasher passwordHasher;
     private readonly IMapper mapper;
     private readonly IAuthServices authServices;
@@ -20,13 +19,11 @@ public class UserService : IUserService
         IUserRepository userRepository,
         IMapper mapper,
         IPasswordHasher passwordHasher,
-        IUnitOfWork unitOfWork,
         IAuthServices authServices)
     {
         this.userRepository = userRepository;
         this.mapper = mapper;
         this.passwordHasher = passwordHasher;
-        this.unitOfWork = unitOfWork;
         this.authServices = authServices;
     }
 
@@ -46,8 +43,11 @@ public class UserService : IUserService
     }
     public IQueryable<UserDto> SelectList()
     {
-        var users = this.userRepository.SelectAll()
-            .Include(x => x.Role).Include(u => u.Organization);
+        var users = this.userRepository
+            .SelectAll()
+            .Include(x => x.Role)
+            .Include(u => u.Organization);
+
         if(authServices.User.RoleId != RoleConst.SUPERADMIN)
         {
             users = users
