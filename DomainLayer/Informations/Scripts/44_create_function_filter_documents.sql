@@ -71,5 +71,4 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-
 SELECT * FROM public.get_documents_by_organization(1, '2023-01-01', '2023-06-30');

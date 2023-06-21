@@ -9,9 +9,3 @@
     CONSTRAINT fk_enum_performer_type_enum_state_state_id FOREIGN KEY (state_id)
         REFERENCES public.enum_state (id)
 )
-
-INSERT INTO public."enum_performer_type"
-VALUES
-	(1, 1, 1, 'Модератор',  'Модератор'),
-	(2, 1, 2, 'Aсосий ижрочи',  'Aсосий ижрочи'),
-	(3, 1, 3, 'Ҳамижрочи',  'Ҳамижрочи');
